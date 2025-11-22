@@ -1,20 +1,18 @@
 //Author: Marko Ostrovitsa(A00448932)
 //Purpose of the file is to diplay all the components together in the website
 
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navigation from './components/Navigation';
-import Homepage from './components/Homepage';
-import About from './components/About';
-import SiteMap from './components/Sitemap';
-import Contact from './components/Contact'; // Importing Contact component
-import Gallery from './components/gallery';
-import Flora from './components/flora';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navigation from "./components/Navigation";
+import FAQ from "./components/FAQ";
+import Homepage from "./components/Homepage";
+import About from "./components/About";
+import SiteMap from "./components/Sitemap";
+import Contact from "./components/Contact"; // Importing Contact component
+import Gallery from "./components/gallery";
+import Flora from "./components/flora";
 import EcosystemQuiz from "./components/EcosystemQuiz";
 import VirtualTour from "./components/VirtualTour";
-
-
-
 
 // App component definition
 function App() {
@@ -35,15 +33,19 @@ function App() {
         <Navigation toggleDarkMode={darkModeHandler} dark={dark} />
         {/* Routes component to handle different pages */}
         <Routes>
-          <Route path="/" element={<Homepage dark={dark} />} /> {/* Route for Homepage component */}
-          <Route path="/about" element={<About />} /> {/* Route for About component */}
-          <Route path="/sitemap" element={<SiteMap />} /> {/* Route for SiteMap component */}
-          <Route path="/contact" element={<Contact />} /> {/* Route for Contact component */}
-          <Route path="/gallery" element={<Gallery />}/>
-          <Route path="/flora" element={<Flora />}/>
+          <Route path="/" element={<Homepage dark={dark} />} />{" "}
+          {/* Route for Homepage component */}
+          <Route path="/about" element={<About />} />{" "}
+          {/* Route for About component */}
+          <Route path="/sitemap" element={<SiteMap />} />{" "}
+          {/* Route for SiteMap component */}
+          <Route path="/contact" element={<Contact />} />{" "}
+          {/* Route for Contact component */}
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/flora" element={<Flora />} />
           <Route path="/ecosystem" element={<EcosystemQuiz />} />
-          <Route path="/virtualtour" element={<VirtualTour/>}/>
-
+          <Route path="/virtualtour" element={<VirtualTour />} />
+          <Route path="/faq" element={<FAQ />} />
         </Routes>
       </div>
     </Router>
