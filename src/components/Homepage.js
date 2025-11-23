@@ -5,8 +5,29 @@ import dayBackground from "../assets/forest1.png"; // Daytime forest image
 import nightBackground from "../assets/nightforest.png"; // Nighttime forest image
 import { FaTree, FaLeaf, FaSeedling, FaMapMarkedAlt } from "react-icons/fa";
 import { BsArrowRightCircle } from "react-icons/bs";
+import { speakSoftly } from "../utils/speakSoftly";
+import { useEffect } from "react";
+
 
 const Homepage = ({ dark }) => {
+  
+  useEffect(() => {
+    const handleClick = (e) => {
+      const text = e.target.innerText?.trim();
+  
+      // Filter out useless or huge entries
+      if (!text || text.length < 3 || text.length > 200) return;
+  
+      speakSoftly(text);
+    };
+  
+    document.addEventListener("click", handleClick);
+  
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
+  
   return (
     <div
       className={`flex flex-col min-h-screen bg-cover bg-center transition-all duration-500`}
@@ -21,6 +42,16 @@ const Homepage = ({ dark }) => {
         <h1 className="text-6xl md:text-8xl font-bold mb-6 drop-shadow-md">
           Woodland Conservation Area
         </h1>
+          {/* AUDIO INTRO BUTTON (added) */}
+  <button
+    className="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-full shadow-md mt-4 transition"
+    onClick={() =>
+      speakSoftly("Welcome to the Woodland Conservation Area. Immerse yourself in nature's wonders.")
+    }
+  >
+    🔊 Hear Introduction
+  </button>
+
         <p className="text-xl md:text-3xl max-w-3xl mx-auto drop-shadow-md">
           Immerse yourself in nature's wonders. Discover. Learn. Protect.
         </p>
@@ -158,7 +189,9 @@ const Homepage = ({ dark }) => {
         </p>
       </footer>
     </div>
+    
   );
+  
 };
 
 export default Homepage;

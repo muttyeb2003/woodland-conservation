@@ -5,6 +5,8 @@ import React, { useRef, useState, useEffect } from "react";
 import outlookImage from "../assets/outlook.jpg"; 
 import { IoVolumeHigh, IoVolumeOff } from "react-icons/io5";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { useCallback } from 'react';
+
 
 const About = () => {
   const [isPaused, setIsPaused] = useState(false);
@@ -26,6 +28,41 @@ const About = () => {
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
+
+  const speakSoftly = useCallback((text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+  
+    const selectedVoice = voices.find(
+      (voice) => voice.name.includes("Female") && voice.lang === "en-US"
+    );
+    if (selectedVoice) utterance.voice = selectedVoice;
+  
+    utterance.pitch = 1.4;
+    utterance.rate = 0.9;
+  
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }, [voices]);
+  
+
+    // Click-to-speak for all text on the page
+    useEffect(() => {
+      const handleClick = (e) => {
+        const text = e.target.innerText?.trim();
+    
+        if (!text || text.length < 3 || text.length > 250) return;
+    
+        speakSoftly(text);
+      };
+    
+      document.addEventListener("click", handleClick);
+    
+      return () => {
+        document.removeEventListener("click", handleClick);
+      };
+    }, [speakSoftly]);
+    
+  
 
   // Handle text-to-speech
   const handleTextToSpeech = () => {
@@ -62,6 +99,7 @@ const About = () => {
       };
     }
   };
+  
 
   // Toggle accordion state
   const toggleAccordion = (section) => {

@@ -5,7 +5,7 @@ export const faqs = [
     question: "What is woodland conservation?",
     answer:
       "Woodland conservation means protecting and managing forests so they can support wildlife, biodiversity, and ecosystem health.",
-    category: "General",
+    category: "General ",
     upvotes: 5,
   },
   {

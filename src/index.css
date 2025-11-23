@@ -12,3 +12,53 @@ a {
   text-decoration: none;
   overflow-wrap: break-word; /* Ensures no word-breaking over lines */
 }
+
+/* ---------------------------
+   ACCESSIBILITY REQUIREMENTS
+   --------------------------- */
+
+/* 1) Larger base font size */
+:root {
+  font-size: 18px;
+  color-scheme: light dark;
+
+  /* 3 & 4) Text colors for light/dark mode */
+  --text-light: #000000;     /* black for light mode */
+  --text-dark: #fdf5c6;      /* pale yellow for dark mode */
+
+  /* 5) Consistent button/tab colors (no red or green) */
+  --btn-bg-light: #3a3a3a;
+  --btn-text-light: #ffffff;
+
+  --btn-bg-dark: #5a5a5a;
+  --btn-text-dark: #fdf5c6;
+}
+
+/* Apply dynamic text color for dark/light mode */
+body {
+  color: light-dark(var(--text-light), var(--text-dark));
+}
+
+/* Ensure links change color correctly in dark/light mode */
+a {
+  color: light-dark(var(--text-light), var(--text-dark));
+}
+
+/* Buttons and tabs styling */
+button,
+.btn,
+.tab {
+  background-color: light-dark(var(--btn-bg-light), var(--btn-bg-dark));
+  color: light-dark(var(--btn-text-light), var(--btn-text-dark));
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover,
+.btn:hover,
+.tab:hover {
+  background-color: light-dark(#4a4a4a, #6a6a6a);
+}
