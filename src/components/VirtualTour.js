@@ -1,4 +1,4 @@
-// Author: Yousef Moutea & Team
+// Author: Muhammad Asfand Yar Khan
 // Purpose: Virtual Tour Slideshow with Text-to-Speech, Uploads, and Caption Editing
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -53,6 +53,7 @@ const VirtualTour = () => {
 
   // 🔊 narration
   const speak = (text) => {
+    if (!text) return;
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "en-US";
     utter.rate = 1;
@@ -108,7 +109,11 @@ const VirtualTour = () => {
 
   return (
     <div className="p-8 bg-white dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center font-sans">
-      <h1 className="text-5xl font-bold text-center mb-10">
+      {/* CLICK-TO-SPEAK TITLE (SHORT, does NOT mention uploads) */}
+      <h1
+        className="text-5xl font-bold text-center mb-10 cursor-pointer"
+        onClick={() => speak("Virtual Tour of the Woodland")}
+      >
         Virtual Tour of the Woodland
       </h1>
 
@@ -168,11 +173,21 @@ const VirtualTour = () => {
 
       {/* Upload Section */}
       <div className="mt-12 text-center border-2 border-dashed border-gray-500 p-6 rounded-lg bg-gray-100 dark:bg-gray-800 max-w-2xl transition-all duration-300 hover:shadow-lg">
-        <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">
+        {/* Click-to-speak the paragraph text */}
+        <p
+          className="text-xl text-gray-700 dark:text-gray-300 mb-4 cursor-pointer"
+          onClick={() =>
+            speak("Upload your own images and add captions for the virtual tour")
+          }
+        >
           Upload your own images and add captions for the virtual tour:
         </p>
 
-        <label className="block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded cursor-pointer transition-transform duration-300 hover:scale-105 mb-6">
+        {/* Hover-to-speak label button (still opens file picker) */}
+        <label
+          className="block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded cursor-pointer transition-transform duration-300 hover:scale-105 mb-6 inline-block"
+          onMouseEnter={() => speak("Upload Images")}
+        >
           Upload Images
           <input
             type="file"
@@ -219,3 +234,6 @@ const VirtualTour = () => {
 };
 
 export default VirtualTour;
+
+
+

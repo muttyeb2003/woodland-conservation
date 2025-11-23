@@ -13,6 +13,7 @@ import Gallery from "./components/gallery";
 import Flora from "./components/flora";
 import EcosystemQuiz from "./components/EcosystemQuiz";
 import VirtualTour from "./components/VirtualTour";
+import Ecommerce from "./components/Ecommerce";  // <-- Import Ecommerce component here
 
 // App component definition
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/ecosystem" element={<EcosystemQuiz />} />
           <Route path="/virtualtour" element={<VirtualTour />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/ecommerce" element={<Ecommerce />} /> {/* Added route */}
         </Routes>
       </div>
     </Router>

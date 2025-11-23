@@ -3,23 +3,40 @@ import React, { useState } from "react";
 import { faqs as initialFaqs } from "../data/faqs";
 
 function FAQ() {
-  // Base FAQ list (system + any user-submitted while page is open)
   const [faqList, setFaqList] = useState(initialFaqs);
 
-  // Track which FAQ IDs this browser has already voted on
   const [votedIds, setVotedIds] = useState(() => {
     const stored = localStorage.getItem("faqVotes");
     return stored ? JSON.parse(stored) : [];
   });
 
-  // For "Ask a Question" textarea
   const [newQuestion, setNewQuestion] = useState("");
 
-  // Sort FAQs by upvotes (highest first)
   const sortedFaqs = [...faqList].sort((a, b) => b.upvotes - a.upvotes);
 
+  // Speech synthesis helper
+  const speak = (text) => {
+    if (!text) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "en-US";
+    utter.rate = 1;
+    utter.pitch = 1;
+    window.speechSynthesis.speak(utter);
+  };
+
+  // Hover speech for buttons
+  const speakOnHover = (text) => {
+    if (!text) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "en-US";
+    utter.rate = 1.2;
+    utter.pitch = 1;
+    window.speechSynthesis.speak(utter);
+  };
+
   const handleUpvote = (id) => {
-    // Already voted for this FAQ on this browser
     if (votedIds.includes(id)) return;
 
     const updatedFaqs = faqList.map((faq) =>
@@ -45,11 +62,11 @@ function FAQ() {
       upvotes: 0,
       source: "user",
       createdAt: new Date().toISOString(),
-      // tempAnswer will be added later when replying
     };
 
     setFaqList((prev) => [...prev, newFAQ]);
     setNewQuestion("");
+    speak("Question submitted.");
   };
 
   const handleTempAnswerChange = (id, text) => {
@@ -75,12 +92,27 @@ function FAQ() {
     });
 
     setFaqList(updated);
+    speak("Answer submitted.");
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6 text-left">
-      <h1 className="text-3xl font-bold mb-2">Woodland Conservation FAQs</h1>
-      <p className="text-gray-700 dark:text-gray-200 mb-6">
+      <h1
+        className="text-3xl font-bold mb-2 cursor-pointer select-none"
+        onClick={() => speak("Woodland Conservation Frequently Asked Questions")}
+        title="Click to hear heading"
+      >
+        Woodland Conservation FAQs
+      </h1>
+      <p
+        className="text-gray-700 dark:text-gray-200 mb-6 cursor-pointer select-none"
+        onClick={() =>
+          speak(
+            "Browse common questions about woodlands, wildlife, and conservation. Answers with more upvotes appear at the top. You can also submit a new question and reply to user-submitted questions."
+          )
+        }
+        title="Click to hear description"
+      >
         Browse common questions about woodlands, wildlife, and conservation.
         Answers with more upvotes appear at the top. You can also submit a new
         question and reply to user-submitted questions.
@@ -92,18 +124,30 @@ function FAQ() {
           key={faq.id}
           className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 mb-4 bg-white dark:bg-blue-950"
         >
-          <div className="text-xs text-gray-500 dark:text-gray-300 mb-1">
+          <div className="text-xs text-gray-500 dark:text-gray-300 mb-1 cursor-pointer select-none" 
+            onClick={() => speak(`Category: ${faq.category}`)}
+            title="Click to hear category"
+          >
             Category: <span className="font-semibold">{faq.category}</span>
           </div>
 
-          <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
+          <h3
+            className="text-lg font-semibold mb-2 cursor-pointer select-none"
+            onClick={() => speak(`Question: ${faq.question}`)}
+            title="Click to hear question"
+          >
+            {faq.question}
+          </h3>
 
-          {/* If it's a user-submitted FAQ with placeholder answer, show reply UI */}
           {faq.source === "user" &&
           faq.answer ===
             "This question has been submitted and will be answered soon." ? (
             <div className="mb-4">
-              <p className="text-gray-600 dark:text-gray-300 mb-2">
+              <p
+                className="text-gray-600 dark:text-gray-300 mb-2 cursor-pointer select-none"
+                onClick={() => speak("This question is waiting for an answer")}
+                title="Click to hear waiting message"
+              >
                 This question is waiting for an answer:
               </p>
 
@@ -118,20 +162,29 @@ function FAQ() {
               <button
                 className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm"
                 onClick={() => handleSubmitAnswer(faq.id)}
+                onMouseEnter={() => speakOnHover("Submit answer")}
+                aria-label="Submit answer"
+                title="Hover to hear Submit answer"
               >
                 Submit Answer
               </button>
             </div>
           ) : (
-            // Otherwise just show the normal answer text
-            <p className="text-gray-800 dark:text-gray-100 mb-4">
+            <p
+              className="text-gray-800 dark:text-gray-100 mb-4 cursor-pointer select-none"
+              onClick={() => speak(`Answer: ${faq.answer}`)}
+              title="Click to hear answer"
+            >
               {faq.answer}
             </p>
           )}
 
           <button
             onClick={() => handleUpvote(faq.id)}
+            onMouseEnter={() => speakOnHover("Upvote")}
             className="px-3 py-1 rounded-md border border-gray-400 dark:border-gray-500 text-sm hover:bg-gray-100 dark:hover:bg-blue-800"
+            aria-label={`Upvote question: ${faq.question}`}
+            title="Hover to hear Upvote"
           >
             👍 Upvote ({faq.upvotes})
           </button>
@@ -140,7 +193,13 @@ function FAQ() {
 
       {/* SUBMIT QUESTION FORM */}
       <div className="mt-10 p-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-blue-950">
-        <h2 className="text-xl font-semibold mb-3">Ask a Question</h2>
+        <h2
+          className="text-xl font-semibold mb-3 cursor-pointer select-none"
+          onClick={() => speak("Ask a Question")}
+          title="Click to hear heading"
+        >
+          Ask a Question
+        </h2>
 
         <form onSubmit={handleSubmitQuestion}>
           <textarea
@@ -149,11 +208,15 @@ function FAQ() {
             value={newQuestion}
             onChange={(e) => setNewQuestion(e.target.value)}
             rows="3"
+            aria-label="New question input"
           ></textarea>
 
           <button
             type="submit"
             className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded-md"
+            onMouseEnter={() => speakOnHover("Submit question")}
+            aria-label="Submit question"
+            title="Hover to hear Submit question"
           >
             Submit Question
           </button>
@@ -164,3 +227,4 @@ function FAQ() {
 }
 
 export default FAQ;
+

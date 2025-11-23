@@ -48,7 +48,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
             Site Map
           </Link>
           <Link
-            to="gallery"
+            to="/gallery"
             className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
           >
             Gallery
@@ -60,7 +60,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
             Ecosystem Quiz
           </Link>
           <Link
-            to="flora"
+            to="/flora"
             className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
           >
             Flora/Fauna/Fungi
@@ -71,19 +71,21 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           >
             Natural Burial
           </Link>
+
+          {/* eCommerce link */}
           <Link
-            to="#ecommerce"
+            to="/ecommerce"
             className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
           >
             eCommerce
           </Link>
+
           <Link
             to="/contact"
             className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
           >
             Contact
-          </Link>{" "}
-          {/* Link to Contact page */}
+          </Link>
           <Link
             to="/virtualtour"
             className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
@@ -183,7 +185,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
             Ecosystem Quiz
           </Link>
           <Link
-            to="#flora"
+            to="/flora"
             className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
           >
             Flora/Fauna/Fungi
@@ -194,19 +196,21 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           >
             Natural Burial
           </Link>
+
+          {/* eCommerce link in mobile menu */}
           <Link
-            to="#ecommerce"
+            to="/ecommerce"
             className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
           >
             eCommerce
           </Link>
+
           <Link
             to="/contact"
             className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
           >
             Contact
-          </Link>{" "}
-          {/* Link to Contact page */}
+          </Link>
           <Link
             to="/virtualtour"
             className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
@@ -226,3 +230,5 @@ const Navigation = ({ toggleDarkMode, dark }) => {
 };
 
 export default Navigation;
+
+

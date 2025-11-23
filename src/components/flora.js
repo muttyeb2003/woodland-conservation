@@ -1,5 +1,5 @@
-//Authors: Kunal Singla(A00461346), Cole Turner (A00469026)/Author: Bahnu Prakash (A00468530)
-//Purpose: This file represents a componet to display a flora fauna fungi page.
+// Updated FloraFaunaFungi.js with click-to-speech on title and expanded descriptions
+//Author: Muhammad Asfand Yar Khan
 
 import React, { useState } from 'react';
 import redMaple from '../assets/download-4.jpg';
@@ -8,142 +8,146 @@ import mushroom from '../assets/download-6.jpg';
 import birchImage from '../assets/download-7.jpg';
 import chipmunk from '../assets/download-8.jpg';
 
-// Sample data for Flora, Fauna, and Fungi
-// Authors: Kunal Singla, Cole Turner
+// --- Speech Helpers ---
+const speak = (text) => {
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1;
+  window.speechSynthesis.speak(utter);
+};
+
+const hoverSpeak = (text) => () => speak(text);
+
+// Expanded descriptive data
 const data = [
   {
-    name: 'Red Maple', // Name of the item
-    category: 'Flora', // Category to classify the item (Flora, Fauna, Fungi)
-    description: 'A majestic tree known for its vibrant red leaves.', // Description of the item
-    image: redMaple, // Path to the image representing the item
+    name: 'Red Maple',
+    category: 'Flora',
+    description:
+      'The Red Maple is a defining species within the Mi’kma’ki woodlands conservation areas. It thrives in moist soils and is especially known for its vibrant red foliage during the fall. Red Maples play an important ecological role by supporting a variety of insects, birds, and mammals. Indigenous Mi’kmaq communities have historically used different parts of the tree for medicinal and practical purposes.',
+    image: redMaple,
   },
   {
     name: 'Star-nosed Mole',
     category: 'Fauna',
-    description: 'An extraordinary mammal known for its unique star-shaped nose.',
+    description:
+      'The Star-nosed Mole is a fascinating small mammal found in moist, forested areas of Mi’kma’ki, including Halifax woodlands. Known for its distinctive star-shaped nose with 22 appendages, it is the fastest mammalian eater on earth. This species plays an essential role in controlling soil invertebrate populations and contributes to soil aeration through tunneling.',
     image: mole,
   },
   {
     name: 'Golden Oyster Mushroom',
     category: 'Fungi',
-    description: 'A bright yellow mushroom often found on decaying wood.',
+    description:
+      'Golden Oyster Mushrooms grow on decaying hardwood trees throughout the Halifax region and wider Mi’kma’ki. Their bright yellow caps make them easy to spot in mature forests. As decomposers, they help recycle nutrients back into the ecosystem. They form essential relationships that maintain woodland soil health and biodiversity.',
     image: mushroom,
   },
   {
     name: 'Birch Tree',
     category: 'Flora',
-    description: 'A tree with striking white bark and vibrant leaves.',
+    description:
+      'Birch Trees, common throughout Mi’kma’ki woodlands, are easily identified by their white peeling bark. They support numerous organisms including birds, fungi, and insects. Traditionally, Mi’kmaq communities have used birch bark for canoe building, basket weaving, and shelter construction due to its waterproof and durable qualities.',
     image: birchImage,
   },
   {
     name: 'Eastern Chipmunk',
     category: 'Fauna',
-    description: 'A small mammal with stripes and an energetic personality.',
+    description:
+      'The Eastern Chipmunk is frequently seen in Halifax forests and is an important species for seed dispersal. Living in burrows, chipmunks help aerate soil and contribute to forest regeneration. They are active indicators of woodland health and are part of the natural biodiversity found throughout Mi’kma’ki.',
     image: chipmunk,
   },
 ];
 
 const FloraFaunaFungi = () => {
-  const [selectedItem, setSelectedItem] = useState(null); 
-  // State to store the currently selected item for displaying in a modal. Initially null.
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [filter, setFilter] = useState('All');
 
-  const [filter, setFilter] = useState('All'); 
-  // State to manage the current filter category (e.g., Flora, Fauna, Fungi). Defaults to 'All'.
-
-  // Function to close the modal by resetting the selected item to null
   const closeModal = () => setSelectedItem(null);
 
-  // Function to filter the data based on the current filter
   const filteredData = filter === 'All' ? data : data.filter((item) => item.category === filter);
 
   return (
     <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
-      {/* Main container with padding, background color, and full screen height */}
-      <h1 className="text-4xl font-bold text-center mb-10 text-gray-900 dark:text-gray-100">
+      {/* Page Title */}
+      <h1
+        className="text-4xl font-bold text-center mb-10 text-gray-900 dark:text-gray-100 cursor-pointer"
+        onClick={() => speak('Explore Flora, Fauna, and Fungi')}
+      >
         Explore Flora, Fauna, and Fungi
-        {/* Page title with responsive styling for light and dark modes */}
       </h1>
 
-      {/* Categories Filter */}
+      {/* Category Buttons */}
       <div className="flex justify-center space-x-4 mb-8">
         {['All', 'Flora', 'Fauna', 'Fungi'].map((category) => (
           <button
-            key={category} 
-            // Unique key for each button to ensure React can track them properly
+            key={category}
             className={`px-4 py-2 rounded-lg font-bold ${
               filter === category
-                ? 'bg-blue-600 text-white' 
-                // Highlight the active filter button
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-300 text-gray-800 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300'
-                // Default styles for inactive buttons with hover effects
             }`}
-            onClick={() => setFilter(category)} 
-            // Update the filter state when a button is clicked
+            onMouseEnter={hoverSpeak(category)}
+            onClick={() => setFilter(category)}
           >
             {category}
-            {/* Display the category name */}
           </button>
         ))}
       </div>
 
-      {/* Interactive Grid for displaying items */}
+      {/* Grid Items */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredData.map((item, index) => (
           <div
-            key={index} 
-            // Unique key for each grid item
+            key={index}
             className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105"
-            // Styling for hover effects and responsiveness
-            onClick={() => setSelectedItem(item)} 
-            // Set the clicked item as the selected item
+            onClick={() => {
+              speak(item.name);
+              setSelectedItem(item);
+            }}
           >
             <img
-              src={item.image} 
-              // Source of the item's image
-              alt={item.name} 
-              // Alternative text for the image
+              src={item.image}
+              alt={item.name}
               className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-              // Image styling with hover zoom effect
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-              {/* Overlay with a gradient background, visible on hover */}
               <h2 className="text-xl font-bold text-white">{item.name}</h2>
-              {/* Display the item's name */}
               <p className="text-sm text-gray-300">{item.category}</p>
-              {/* Display the item's category */}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal for displaying the selected item's details */}
+      {/* Modal */}
       {selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          {/* Semi-transparent background for the modal */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 relative max-w-lg w-full">
-            {/* Modal container with styling */}
             <button
               className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2"
-              // Close button with styling
+              onMouseEnter={hoverSpeak('Close')}
               onClick={closeModal}
-             
             >
               ✕
             </button>
+
             <img
-              src={selectedItem.image} 
-              // Image of the selected item
-              alt={selectedItem.name} 
-              // Alternative text for the image
+              src={selectedItem.image}
+              alt={selectedItem.name}
               className="w-full h-64 object-cover rounded-lg mb-4"
-              // Image styling inside the modal
             />
-            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">
+
+            <h2
+              className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100 cursor-pointer"
+              onClick={() => speak(selectedItem.name)}
+            >
               {selectedItem.name}
-              {/* Display the selected item's name */}
             </h2>
-            <p className="text-gray-700 dark:text-gray-300">{selectedItem.description}</p>
-            {/* Display the selected item's description */}
+
+            <p
+              className="text-gray-700 dark:text-gray-300 cursor-pointer"
+              onClick={() => speak(selectedItem.description)}
+            >
+              {selectedItem.description}
+            </p>
           </div>
         </div>
       )}
@@ -152,3 +156,5 @@ const FloraFaunaFungi = () => {
 };
 
 export default FloraFaunaFungi;
+
+
