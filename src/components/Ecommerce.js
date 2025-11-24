@@ -16,28 +16,49 @@ const Ecommerce = () => {
   const [cart, setCart] = useState([]); // [{id, name, price, qty}]
   const [checkedOut, setCheckedOut] = useState(false);
   const [gstResult, setGstResult] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   // Speech synthesis helper
   const speak = (text) => {
     if (!text) return;
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    if (synth.paused) synth.resume();
+    synth.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "en-US";
     utter.rate = 1;
     utter.pitch = 1;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utter);
+    synth.speak(utter);
+    setIsPaused(false);
   };
 
   // Use for hover speech (Add to cart, Remove buttons)
   const speakOnHover = (text) => {
     // Cancel any ongoing speech, then speak
     if (!text) return;
-    window.speechSynthesis.cancel();
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    if (synth.paused) synth.resume();
+    synth.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "en-US";
     utter.rate = 1.2;
     utter.pitch = 1;
-    window.speechSynthesis.speak(utter);
+    synth.speak(utter);
+    setIsPaused(false);
+  };
+
+  const toggleSpeechPause = () => {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    if (synth.paused) {
+      synth.resume();
+      setIsPaused(false);
+    } else {
+      synth.pause();
+      setIsPaused(true);
+    }
   };
 
   const addToCart = (product) => {
@@ -111,6 +132,16 @@ const Ecommerce = () => {
         >
           Small demo store — add items to cart, view totals, and Checkout (14% GST).
         </p>
+        <div className="mb-6 flex items-center gap-3">
+          <button
+            onClick={toggleSpeechPause}
+            className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm"
+            aria-label={isPaused ? "Resume text to speech" : "Pause text to speech"}
+            title={isPaused ? "Resume text to speech" : "Pause text to speech"}
+          >
+            {isPaused ? "Resume speech" : "Pause speech"}
+          </button>
+        </div>
 
         {/* PRODUCTS */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

@@ -1,33 +1,75 @@
 // Authors: Lakshay Bansal (A00467478), Marko Ostrovitsa (A00448932)
 // Purpose: To display the Contact section of the Woodland Conservation website
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dayBackground from "../assets/forest1.png"; // Daytime forest image
 import nightBackground from "../assets/nightforest.png"; // Nighttime forest image
 import { FaTree, FaLeaf, FaSeedling, FaMapMarkedAlt } from "react-icons/fa";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { speakSoftly } from "../utils/speakSoftly";
-import { useEffect } from "react";
-
 
 const Homepage = ({ dark }) => {
-  
+  const [introStatus, setIntroStatus] = useState("idle"); // idle | speaking | paused
+  const introText =
+    "Welcome to the Woodland Conservation Area. Immerse yourself in nature's wonders.";
+
   useEffect(() => {
     const handleClick = (e) => {
       const text = e.target.innerText?.trim();
-  
+
       // Filter out useless or huge entries
       if (!text || text.length < 3 || text.length > 200) return;
-  
+
       speakSoftly(text);
     };
-  
+
     document.addEventListener("click", handleClick);
-  
+
     return () => {
       document.removeEventListener("click", handleClick);
     };
   }, []);
-  
+
+  const handleIntroClick = (e) => {
+    if (e && typeof e.stopPropagation === "function") e.stopPropagation();
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+
+    if (introStatus === "speaking") {
+      synth.pause();
+      setIntroStatus("paused");
+      return;
+    }
+
+    if (introStatus === "paused") {
+      synth.resume();
+      setIntroStatus("speaking");
+      return;
+    }
+
+    // If nothing is playing, start fresh
+    synth.cancel();
+    const utter = new SpeechSynthesisUtterance(introText);
+
+    // Use the same softer settings as speakSoftly
+    const voices = synth.getVoices();
+    const softVoice = voices.find(
+      (v) => v.lang.startsWith("en") && !v.name.toLowerCase().includes("robot")
+    );
+    if (softVoice) utter.voice = softVoice;
+    utter.volume = 0.8;
+    utter.pitch = 1.0;
+    utter.rate = 1;
+
+    utter.onend = () => setIntroStatus("idle");
+    utter.onerror = () => setIntroStatus("idle");
+
+    synth.speak(utter);
+    setIntroStatus("speaking");
+  };
+
+  const introButtonLabel =
+    introStatus === "speaking" ? "Pause Speech" : "Hear Introduction";
+
   return (
     <div
       className={`flex flex-col min-h-screen bg-cover bg-center transition-all duration-500`}
@@ -42,15 +84,13 @@ const Homepage = ({ dark }) => {
         <h1 className="text-6xl md:text-8xl font-bold mb-6 drop-shadow-md">
           Woodland Conservation Area
         </h1>
-          {/* AUDIO INTRO BUTTON (added) */}
-  <button
-    className="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-full shadow-md mt-4 transition"
-    onClick={() =>
-      speakSoftly("Welcome to the Woodland Conservation Area. Immerse yourself in nature's wonders.")
-    }
-  >
-    🔊 Hear Introduction
-  </button>
+        {/* AUDIO INTRO BUTTON (added) */}
+        <button
+          className="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-full shadow-md mt-4 transition"
+          onClick={handleIntroClick}
+        >
+          {introButtonLabel}
+        </button>
 
         <p className="text-xl md:text-3xl max-w-3xl mx-auto drop-shadow-md">
           Immerse yourself in nature's wonders. Discover. Learn. Protect.
@@ -184,14 +224,12 @@ const Homepage = ({ dark }) => {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-8 text-center">
         <p className="text-lg">
-          © {new Date().getFullYear()} Woodland Conservation Area. All Rights
+          Ac {new Date().getFullYear()} Woodland Conservation Area. All Rights
           Reserved.
         </p>
       </footer>
     </div>
-    
   );
-  
 };
 
 export default Homepage;
