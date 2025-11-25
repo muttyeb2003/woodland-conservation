@@ -28,7 +28,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           <img src={logo} alt="Logo" className="h-16 w-16 mr-2" />
         </div>
         {/* Navigation links for desktop view */}
-        <div className="hidden md:flex items-center justify-center flex-1 space-x-4 text-xl">
+        <div className="hidden md:flex items-center justify-center flex-1 space-x-4 text-xl z-50 relative">
           <Link
             to="/"
             className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
