@@ -3,12 +3,16 @@
 // src/components/Ecommerce.js
 import React, { useState } from "react";
 import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
+import woodlandGuidebook from "../assets/woodlandguidebook.png";
+import waterBottle from "../assets/waterbottle.png";
+import trailMap from "../assets/trailmap.png";
+import seedPack from "../assets/seedpack.png";
 
 const PRODUCTS = [
-  { id: 1, name: "Woodland Guidebook", price: 19.99, image: "" },
-  { id: 2, name: "Recycled Water Bottle", price: 14.5, image: "" },
-  { id: 3, name: "Trail Map (folded)", price: 6.0, image: "" },
-  { id: 4, name: "Seed Pack (native species)", price: 8.75, image: "" },
+  { id: 1, name: "Woodland Guidebook", price: 19.99, image: woodlandGuidebook },
+  { id: 2, name: "Recycled Water Bottle", price: 14.5, image: waterBottle },
+  { id: 3, name: "Trail Map (folded)", price: 6.0, image: trailMap },
+  { id: 4, name: "Seed Pack (native species)", price: 8.75, image: seedPack },
 ];
 
 const formatCurrency = (n) => `$${Number(n).toFixed(2)}`;
@@ -145,13 +149,16 @@ const Ecommerce = () => {
               key={p.id}
               className="border rounded-lg p-4 flex flex-col items-stretch bg-gray-50 dark:bg-gray-800"
             >
-              {/* Image placeholder */}
-              <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-md mb-4 flex items-center justify-center text-gray-500">
+              {/* Image area with consistent aspect ratio */}
+              <div
+                className="w-full bg-gray-200 dark:bg-gray-700 rounded-md mb-4 flex items-center justify-center text-gray-500 overflow-hidden"
+                style={{ aspectRatio: "4 / 5" }}
+              >
                 {p.image ? (
                   <img
                     src={p.image}
                     alt={p.name}
-                    className="w-full h-full object-cover rounded-md"
+                    className="w-full h-full object-contain rounded-md"
                     onClick={() => speak(p.name)}
                   />
                 ) : (

@@ -1,4 +1,4 @@
-// Author: Muhammad Asfand Yar Khan
+// Author: Yousef Yousef
 // Purpose: Virtual Tour Slideshow with Text-to-Speech, Uploads, and Caption Editing
 
 import React, { useState, useEffect, useCallback } from "react";
