@@ -1,7 +1,7 @@
 // Author: Muhammad Asfand Yar Khan
 // Updated: Click-to-speech for all sections, hover-speech for Send Message
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   FaPhone,
   FaEnvelope,
@@ -11,45 +11,18 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import { IoVolumeHigh } from "react-icons/io5";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 const Contact = () => {
-  const [voices, setVoices] = useState([]);
-
-  useEffect(() => {
-    const loadVoices = () => {
-      const voicesList = window.speechSynthesis.getVoices();
-      setVoices(voicesList);
-    };
-
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-  }, []);
-
   const speakText = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-
-    const selectedVoice = voices.find(
-      (voice) => voice.name.includes("Female") && voice.lang === "en-US"
-    );
-    if (selectedVoice) utterance.voice = selectedVoice;
-
-    utterance.pitch = 1.2;
-    utterance.rate = 0.9;
+    const utterance = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
 
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   };
 
   const handleHoverSpeak = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-
-    const selectedVoice = voices.find(
-      (voice) => voice.name.includes("Female") && voice.lang === "en-US"
-    );
-    if (selectedVoice) utterance.voice = selectedVoice;
-
-    utterance.pitch = 1.1;
-    utterance.rate = 0.95;
+    const utterance = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
 
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);

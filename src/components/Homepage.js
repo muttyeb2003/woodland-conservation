@@ -1,11 +1,13 @@
 // Authors: Lakshay Bansal (A00467478), Marko Ostrovitsa (A00448932)
 // Purpose: To display the Contact section of the Woodland Conservation website
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import dayBackground from "../assets/forest1.png"; // Daytime forest image
 import nightBackground from "../assets/nightforest.png"; // Nighttime forest image
 import { FaTree, FaLeaf, FaSeedling, FaMapMarkedAlt } from "react-icons/fa";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { speakSoftly } from "../utils/speakSoftly";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 const Homepage = ({ dark }) => {
   const [introStatus, setIntroStatus] = useState("idle"); // idle | speaking | paused
@@ -48,17 +50,7 @@ const Homepage = ({ dark }) => {
 
     // If nothing is playing, start fresh
     synth.cancel();
-    const utter = new SpeechSynthesisUtterance(introText);
-
-    // Use the same softer settings as speakSoftly
-    const voices = synth.getVoices();
-    const softVoice = voices.find(
-      (v) => v.lang.startsWith("en") && !v.name.toLowerCase().includes("robot")
-    );
-    if (softVoice) utter.voice = softVoice;
-    utter.volume = 0.8;
-    utter.pitch = 1.0;
-    utter.rate = 1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(introText));
 
     utter.onend = () => setIntroStatus("idle");
     utter.onerror = () => setIntroStatus("idle");
@@ -95,12 +87,12 @@ const Homepage = ({ dark }) => {
         <p className="text-xl md:text-3xl max-w-3xl mx-auto drop-shadow-md">
           Immerse yourself in nature's wonders. Discover. Learn. Protect.
         </p>
-        <button
-          className="bg-green-500 hover:bg-green-400 text-white px-8 py-4 mt-6 rounded-full shadow-lg font-semibold transition"
-          onClick={() => alert("Explore Section Coming Soon!")}
+        <Link
+          to="/virtualtour"
+          className="inline-block bg-green-500 hover:bg-green-400 text-white px-8 py-4 mt-6 rounded-full shadow-lg font-semibold transition"
         >
           Explore Now
-        </button>
+        </Link>
       </header>
 
       {/* Main Sections */}

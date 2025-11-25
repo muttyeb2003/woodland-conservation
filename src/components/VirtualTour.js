@@ -2,24 +2,21 @@
 // Purpose: Virtual Tour Slideshow with Text-to-Speech, Uploads, and Caption Editing
 
 import React, { useState, useEffect, useCallback } from "react";
-import img1 from "../assets/download-1.jpg";
-import img2 from "../assets/download-2.jpg";
-import img3 from "../assets/download-3.jpg";
-import img4 from "../assets/download-4.jpg";
-import img5 from "../assets/download-5.jpg";
-import img6 from "../assets/download-6.jpg";
-import img7 from "../assets/download-7.jpg";
-import img8 from "../assets/download-8.jpg";
+import img1 from "../assets/image1.jpg";
+import img2 from "../assets/image2.jpg";
+import img3 from "../assets/image3.jpg";
+import img4 from "../assets/image4.jpg";
+import img5 from "../assets/image5.jpg";
+import img6 from "../assets/image6.jpg";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 const defaultSlides = [
-  { src: img1, caption: "Lush canopy of the woodland." },
-  { src: img2, caption: "Dense green foliage shining in sunlight." },
-  { src: img3, caption: "The harmony of forest life." },
-  { src: img4, caption: "A wooden trail leading deep into nature." },
-  { src: img5, caption: "Majestic maple tree glowing in autumn red." },
-  { src: img6, caption: "Rare star-nosed mole, symbol of biodiversity." },
-  { src: img7, caption: "Golden mushrooms thriving in the shade." },
-  { src: img8, caption: "Peaceful stream flowing through the mossy forest." },
+  { src: img1, caption: "Twisted understory" },
+  { src: img2, caption: "Mossy boulder path with wild apples" },
+  { src: img3, caption: "Wild apple canopy" },
+  { src: img4, caption: "Sunlit apple tree" },
+  { src: img5, caption: "September apple thicket" },
+  { src: img6, caption: "Old-growth birch grove" },
 ];
 
 const VirtualTour = () => {
@@ -54,10 +51,7 @@ const VirtualTour = () => {
   // 🔊 narration
   const speak = (text) => {
     if (!text) return;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "en-US";
-    utter.rate = 1;
-    utter.pitch = 1.1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utter);
   };

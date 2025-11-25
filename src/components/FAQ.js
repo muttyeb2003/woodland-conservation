@@ -1,6 +1,7 @@
 // src/components/FAQ.js
 import React, { useState } from "react";
 import { faqs as initialFaqs } from "../data/faqs";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 function FAQ() {
   const [faqList, setFaqList] = useState(initialFaqs);
@@ -22,10 +23,7 @@ function FAQ() {
     if (!synth) return;
     if (synth.paused) synth.resume();
     synth.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "en-US";
-    utter.rate = 1;
-    utter.pitch = 1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     synth.speak(utter);
     setIsPaused(false);
   };
@@ -37,10 +35,7 @@ function FAQ() {
     if (!synth) return;
     if (synth.paused) synth.resume();
     synth.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "en-US";
-    utter.rate = 1.2;
-    utter.pitch = 1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     synth.speak(utter);
     setIsPaused(false);
   };

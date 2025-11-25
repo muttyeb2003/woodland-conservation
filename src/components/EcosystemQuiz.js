@@ -2,6 +2,7 @@
 //Purpose: Code to display the ecosystem quiz with hover-speak and submit button
 
 import React, { useState, useCallback } from "react";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 const EcosystemQuiz = () => {
   const questions = [
@@ -51,9 +52,7 @@ const EcosystemQuiz = () => {
   const speakText = useCallback((text) => {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 1;
-    utter.pitch = 1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     window.speechSynthesis.speak(utter);
   }, []);
 

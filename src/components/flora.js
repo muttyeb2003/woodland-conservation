@@ -7,12 +7,12 @@ import mole from '../assets/download-5.jpg';
 import mushroom from '../assets/download-6.jpg';
 import birchImage from '../assets/download-7.jpg';
 import chipmunk from '../assets/download-8.jpg';
+import { applyTalkingTreesVoice } from '../utils/talkingTreesVoice';
 
 // --- Speech Helpers ---
 const speak = (text) => {
   window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.rate = 1;
+  const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
   window.speechSynthesis.speak(utter);
 };
 

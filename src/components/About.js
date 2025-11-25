@@ -6,6 +6,7 @@ import outlookImage from "../assets/outlook.jpg";
 import { IoVolumeHigh, IoVolumeOff } from "react-icons/io5";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { useCallback } from 'react';
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 
 const About = () => {
@@ -15,34 +16,15 @@ const About = () => {
     heritageLegacy: false,
   });
   const [showMoreMission, setShowMoreMission] = useState(false);
-  const [voices, setVoices] = useState([]);
   const speechSynthesisRef = useRef(null);
   const textRef = useRef("");
 
-  useEffect(() => {
-    const loadVoices = () => {
-      const voicesList = window.speechSynthesis.getVoices();
-      setVoices(voicesList);
-    };
-    
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-  }, []);
-
   const speakSoftly = useCallback((text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-  
-    const selectedVoice = voices.find(
-      (voice) => voice.name.includes("Female") && voice.lang === "en-US"
-    );
-    if (selectedVoice) utterance.voice = selectedVoice;
-  
-    utterance.pitch = 1.4;
-    utterance.rate = 0.9;
-  
+    const utterance = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
+
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
-  }, [voices]);
+  }, []);
   
 
     // Click-to-speak for all text on the page
@@ -79,17 +61,7 @@ const About = () => {
         It represents a commitment to preserving biodiversity and fostering a connection between people and nature.
         Our mission is to protect, sustain, and inspire, ensuring that the woodland thrives for future generations.
       `;
-      const utterance = new SpeechSynthesisUtterance(textRef.current);
-      
-      // Select a soft female voice
-      const selectedVoice = voices.find(voice => voice.name.includes("Female") && voice.lang === "en-US");
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
-      }
-      
-// Adjust pitch and rate for a softer tone
- utterance.pitch = 1.4; // Slightly higher pitch
-  utterance.rate = 0.9; // Slightly slower rate
+      const utterance = applyTalkingTreesVoice(new SpeechSynthesisUtterance(textRef.current));
 
       speechSynthesisRef.current = utterance;
       window.speechSynthesis.speak(utterance);

@@ -7,6 +7,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { MapContainer, ImageOverlay, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 import rewildingBirch from "../assets/rewildingBirch222.jpg";
 import trailHead from "../assets/hiking.png";
@@ -90,9 +91,6 @@ const SiteMap = () => {
   // Real lat/lng for distance computations
   const [userLatLng, setUserLatLng] = useState(null);
 
-  // Voices list (populated on Start)
-  const [voices, setVoices] = useState([]);
-
   // Closest POI within threshold (object) or null
   const [closestPoi, setClosestPoi] = useState(null);
 
@@ -102,40 +100,17 @@ const SiteMap = () => {
   // Interval ref so we can clear it on unmount
   const pollIntervalRef = useRef(null);
 
-  // Load voices (safe to call after a user gesture)
-  const loadVoices = useCallback(() => {
-    const v = window.speechSynthesis.getVoices();
-    setVoices(v || []);
-  }, []);
-
-  // Soft voice speaker (uses voices state)
+  // Soft voice speaker aligned with Talking Trees voice
   const speakSoftly = useCallback(
     (text) => {
       if (!text) return;
       // Cancel current speech to avoid overlap
       window.speechSynthesis.cancel();
 
-      const utter = new SpeechSynthesisUtterance(text);
-
-      // Try to pick a soft female English voice; otherwise pick any en voice; otherwise default
-      const preferred =
-        voices.find(
-          (v) =>
-            v.lang?.toLowerCase().startsWith("en") &&
-            v.name?.toLowerCase().includes("female")
-        ) ||
-        voices.find((v) => v.lang?.toLowerCase().startsWith("en")) ||
-        null;
-
-      if (preferred) utter.voice = preferred;
-
-      // Softer tone
-      utter.pitch = 1.2;
-      utter.rate = 0.95;
-
+      const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
       window.speechSynthesis.speak(utter);
     },
-    [voices]
+    []
   );
 
   // Global click-to-speak (keeps original behavior). This is harmless and consistent.
@@ -197,10 +172,9 @@ const SiteMap = () => {
     }
   }, [userLatLng]);
 
-  // Start / enable Talking Trees (user gesture) — unlocks speech and starts polling
+  // Start / enable Talking Trees (user gesture) - unlocks speech and starts polling
   const startTalkingTrees = () => {
-    // user gesture required for speech on some browsers — load voices and set flag
-    loadVoices();
+    // user gesture required for speech on some browsers - set flag
     setTalkingTreesStarted(true);
 
     // if geolocation permission already allowed, set up watch (below effect will handle)

@@ -2,6 +2,7 @@
 
 // src/components/Ecommerce.js
 import React, { useState } from "react";
+import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 const PRODUCTS = [
   { id: 1, name: "Woodland Guidebook", price: 19.99, image: "" },
@@ -25,10 +26,7 @@ const Ecommerce = () => {
     if (!synth) return;
     if (synth.paused) synth.resume();
     synth.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "en-US";
-    utter.rate = 1;
-    utter.pitch = 1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     synth.speak(utter);
     setIsPaused(false);
   };
@@ -41,10 +39,7 @@ const Ecommerce = () => {
     if (!synth) return;
     if (synth.paused) synth.resume();
     synth.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "en-US";
-    utter.rate = 1.2;
-    utter.pitch = 1;
+    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     synth.speak(utter);
     setIsPaused(false);
   };
