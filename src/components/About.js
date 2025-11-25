@@ -82,7 +82,7 @@ const About = () => {
   };
 
   return (
-    <div className="p-8 bg-white dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
+    <div className="p-8 bg-darkergreen dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
       {/* Header Section */}
       <div className="flex items-center justify-center w-full mb-10">
         <h1 className="text-5xl font-bold text-center flex-1">
@@ -116,7 +116,7 @@ const About = () => {
             className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
             onClick={() => toggleAccordion("floraFauna")}
           >
-            <span>Flora and Fauna</span>
+            <span className="text-amber-800">Flora and Fauna</span>
             {accordionState.floraFauna ? (
               <AiOutlineMinus className="text-3xl" />
             ) : (
@@ -150,7 +150,7 @@ const About = () => {
             className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
             onClick={() => toggleAccordion("heritageLegacy")}
           >
-            <span>Heritage and Legacy</span>
+            <span className="text-amber-800">Heritage and Legacy</span>
             {accordionState.heritageLegacy ? (
               <AiOutlineMinus className="text-3xl" />
             ) : (
@@ -190,7 +190,7 @@ const About = () => {
         </p>
         <button
           onClick={() => setShowMoreMission(!showMoreMission)}
-          className="mt-2 text-lg text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
+          className="mt-2 text-lg text-white-600 dark:text-blue-400 hover:underline focus:outline-none"
         >
           {showMoreMission ? "Show Less" : "Learn More"}
         </button>

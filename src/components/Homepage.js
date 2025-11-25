@@ -106,7 +106,7 @@ const Homepage = ({ dark }) => {
               Discover trails, wildlife, and serene spots for relaxation.
             </p>
             <button
-              className="text-green-600 hover:text-green-800 mt-4 inline-flex items-center"
+              className="mt-4 inline-flex items-center bg-white text-green-700 hover:text-green-800 px-4 py-2 rounded-md shadow-sm hover:shadow transition"
               onClick={() => alert("Nature Exploration Section Coming Soon!")}
             >
               Learn More <BsArrowRightCircle className="ml-2" />
@@ -119,7 +119,7 @@ const Homepage = ({ dark }) => {
               Attend workshops on sustainability and biodiversity.
             </p>
             <button
-              className="text-blue-600 hover:text-blue-800 mt-4 inline-flex items-center"
+              className="mt-4 inline-flex items-center bg-white text-blue-700 hover:text-blue-800 px-4 py-2 rounded-md shadow-sm hover:shadow transition"
               onClick={() => alert("Education Section Coming Soon!")}
             >
               Learn More <BsArrowRightCircle className="ml-2" />
@@ -132,7 +132,7 @@ const Homepage = ({ dark }) => {
               Join us in tree-planting events or contribute to our cause.
             </p>
             <button
-              className="text-yellow-600 hover:text-yellow-800 mt-4 inline-flex items-center"
+              className="mt-4 inline-flex items-center bg-white text-yellow-700 hover:text-yellow-800 px-4 py-2 rounded-md shadow-sm hover:shadow transition"
               onClick={() => alert("Volunteer Section Coming Soon!")}
             >
               Learn More <BsArrowRightCircle className="ml-2" />
