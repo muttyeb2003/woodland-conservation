@@ -8,6 +8,7 @@ import FAQ from "./components/FAQ";
 import Homepage from "./components/Homepage";
 import About from "./components/About";
 import SiteMap from "./components/Sitemap";
+import NaturalBurial from "./components/NaturalBurial";
 import Contact from "./components/Contact"; // Importing Contact component
 import Gallery from "./components/gallery";
 import Flora from "./components/flora";
@@ -40,6 +41,8 @@ function App() {
           {/* Route for About component */}
           <Route path="/sitemap" element={<SiteMap />} />{" "}
           {/* Route for SiteMap component */}
+          <Route path="/natural-burial" element={<NaturalBurial dark={dark} />} />{" "}
+          {/* Route for Natural Burial component */}
           <Route path="/contact" element={<Contact />} />{" "}
           {/* Route for Contact component */}
           <Route path="/gallery" element={<Gallery />} />

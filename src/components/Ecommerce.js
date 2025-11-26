@@ -2,7 +2,7 @@
 
 // src/components/Ecommerce.js
 import React, { useState } from "react";
-import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
+import { speakSoftly } from "../utils/speakSoftly";
 import woodlandGuidebook from "../assets/woodlandguidebook.png";
 import waterBottle from "../assets/waterbottle.png";
 import trailMap from "../assets/trailmap.png";
@@ -25,26 +25,13 @@ const Ecommerce = () => {
 
   // Speech synthesis helper
   const speak = (text) => {
-    if (!text) return;
-    const synth = window.speechSynthesis;
-    if (!synth) return;
-    if (synth.paused) synth.resume();
-    synth.cancel();
-    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
-    synth.speak(utter);
+    speakSoftly(text);
     setIsPaused(false);
   };
 
   // Use for hover speech (Add to cart, Remove buttons)
   const speakOnHover = (text) => {
-    // Cancel any ongoing speech, then speak
-    if (!text) return;
-    const synth = window.speechSynthesis;
-    if (!synth) return;
-    if (synth.paused) synth.resume();
-    synth.cancel();
-    const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
-    synth.speak(utter);
+    speakSoftly(text);
     setIsPaused(false);
   };
 
@@ -131,15 +118,27 @@ const Ecommerce = () => {
         >
           Small demo store — add items to cart, view totals, and Checkout (14% GST).
         </p>
-        <div className="mb-6 flex items-center gap-3">
-        <button
-          onClick={toggleSpeechPause}
-          className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
-          aria-label={isPaused ? "Resume text to speech" : "Pause text to speech"}
-          title={isPaused ? "Resume text to speech" : "Pause text to speech"}
-        >
-          {isPaused ? "Resume speech" : "Pause speech"}
-        </button>
+        <div className="mb-6 flex items-center gap-3 flex-wrap">
+          <button
+            onClick={() =>
+              speak(
+                "Small demo store. Add items to cart, view totals, and check out with fourteen percent GST. Use the pause button to control speech."
+              )
+            }
+            className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
+            aria-label="Hear store overview"
+            title="Hear store overview"
+          >
+            Hear overview
+          </button>
+          <button
+            onClick={toggleSpeechPause}
+            className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
+            aria-label={isPaused ? "Resume text to speech" : "Pause text to speech"}
+            title={isPaused ? "Resume text to speech" : "Pause text to speech"}
+          >
+            {isPaused ? "Resume speech" : "Pause speech"}
+          </button>
         </div>
 
         {/* PRODUCTS */}

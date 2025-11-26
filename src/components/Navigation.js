@@ -16,7 +16,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
     { to: "/gallery", label: "Gallery" },
     { to: "/ecosystem", label: "Ecosystem Quiz" },
     { to: "/flora", label: "Flora/Fauna/Fungi" },
-    { to: "#natural-burial", label: "Natural Burial" },
+    { to: "/natural-burial", label: "Natural Burial" },
     { to: "/ecommerce", label: "eCommerce" },
     { to: "/contact", label: "Contact" },
     { to: "/virtualtour", label: "Virtual Tour" },
