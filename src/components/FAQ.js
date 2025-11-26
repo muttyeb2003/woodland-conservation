@@ -114,7 +114,7 @@ function FAQ() {
   return (
     <div className="max-w-3xl mx-auto p-6 text-left">
       <h1
-        className="text-3xl font-bold mb-2 cursor-pointer select-none"
+        className="text-3xl font-bold mb-2 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
         onClick={() => speak("Woodland Conservation Frequently Asked Questions")}
         title="Click to hear heading"
       >
@@ -136,7 +136,7 @@ function FAQ() {
       <div className="mb-6 flex items-center gap-3">
         <button
           onClick={toggleSpeechPause}
-          className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm"
+          className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
           aria-label={isPaused ? "Resume text to speech" : "Pause text to speech"}
           title={isPaused ? "Resume text to speech" : "Pause text to speech"}
         >
@@ -158,7 +158,7 @@ function FAQ() {
           </div>
 
           <h3
-            className="text-lg font-semibold mb-2 cursor-pointer select-none"
+            className="text-lg font-semibold mb-2 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
             onClick={() => speak(`Question: ${faq.question}`)}
             title="Click to hear question"
           >
@@ -170,7 +170,7 @@ function FAQ() {
             "This question has been submitted and will be answered soon." ? (
             <div className="mb-4">
               <p
-                className="text-gray-600 dark:text-gray-300 mb-2 cursor-pointer select-none"
+                className="text-[#5b3a1a] dark:!text-white mb-2 cursor-pointer select-none"
                 onClick={() => speak("This question is waiting for an answer")}
                 title="Click to hear waiting message"
               >

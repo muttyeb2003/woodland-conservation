@@ -132,14 +132,14 @@ const Ecommerce = () => {
           Small demo store — add items to cart, view totals, and Checkout (14% GST).
         </p>
         <div className="mb-6 flex items-center gap-3">
-          <button
-            onClick={toggleSpeechPause}
-            className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm"
-            aria-label={isPaused ? "Resume text to speech" : "Pause text to speech"}
-            title={isPaused ? "Resume text to speech" : "Pause text to speech"}
-          >
-            {isPaused ? "Resume speech" : "Pause speech"}
-          </button>
+        <button
+          onClick={toggleSpeechPause}
+          className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
+          aria-label={isPaused ? "Resume text to speech" : "Pause text to speech"}
+          title={isPaused ? "Resume text to speech" : "Pause text to speech"}
+        >
+          {isPaused ? "Resume speech" : "Pause speech"}
+        </button>
         </div>
 
         {/* PRODUCTS */}

@@ -1,7 +1,7 @@
 // Authors: Lakshay Bansal (A00467478), Marko Ostrovitsa (A00448932)
 // Purpose: To display the Contact section of the Woodland Conservation website
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import dayBackground from "../assets/forest1.png"; // Daytime forest image
 import nightBackground from "../assets/nightforest.png"; // Nighttime forest image
 import { FaTree, FaLeaf, FaSeedling, FaMapMarkedAlt } from "react-icons/fa";
@@ -13,6 +13,8 @@ const Homepage = ({ dark }) => {
   const [introStatus, setIntroStatus] = useState("idle"); // idle | speaking | paused
   const introText =
     "Welcome to the Woodland Conservation Area. Immerse yourself in nature's wonders.";
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -161,7 +163,7 @@ const Homepage = ({ dark }) => {
       </div>
 
       {/* Visitor Reviews Section */}
-      <div className="py-12 px-6 bg-white">
+      <div className="py-12 px-6 bg-white text-[#5b3a1a]">
         <h2 className="text-4xl font-bold text-center mb-8">What Visitors Say</h2>
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
@@ -189,10 +191,9 @@ const Homepage = ({ dark }) => {
             Plan your visit with our interactive site map. Explore trails,
             picnic areas, and more.
           </p>
-        </div>
-        <button
+        </div>        <button
           className="bg-green-500 hover:bg-green-400 text-white px-8 py-4 rounded-full shadow-lg font-semibold transition mx-auto block"
-          onClick={() => alert("Map Feature Coming Soon!")}
+          onClick={() => navigate("/sitemap")}
         >
           View Map
         </button>
@@ -207,7 +208,7 @@ const Homepage = ({ dark }) => {
         </p>
         <button
           className="bg-white text-green-600 font-semibold px-8 py-4 rounded-full shadow-md hover:shadow-lg hover:bg-gray-200 transition"
-          onClick={() => alert("Membership Coming Soon!")}
+          onClick={() => navigate("/ecommerce")}
         >
           Join Us
         </button>
@@ -225,3 +226,10 @@ const Homepage = ({ dark }) => {
 };
 
 export default Homepage;
+
+
+
+
+
+
+
