@@ -1,6 +1,6 @@
 // Authors:
-// Bhanu Prakash(A00468530) - 'Get Directions' functionality.
-// Cole Turner (A00469026) - Map interaction, UI, TailWind CSS.
+//  - 'Get Directions' functionality.
+//  - Map interaction, UI, TailWind CSS.
 // Talking Trees: full implementation (distance polling, Play Audio, simulation).
 
 import React, { useState, useEffect, useCallback, useRef } from "react";

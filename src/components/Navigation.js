@@ -1,4 +1,4 @@
-//Author: Marko Ostrovitsa (A00448932)
+//Author: Muttyeb Tahir
 //Purpose: The purpose of this file is to create a navigation bar that is flexible between desktop and mobile versions
 
 import React, { useState } from "react";

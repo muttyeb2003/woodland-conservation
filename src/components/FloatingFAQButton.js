@@ -1,4 +1,4 @@
-// Authors: Codex assistant
+// Authors: Yousef Yousef
 // Purpose: Floating FAQ shortcut button shown on every page
 import React from "react";
 import { Link } from "react-router-dom";

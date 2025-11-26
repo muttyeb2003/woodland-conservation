@@ -1,4 +1,4 @@
-// Authors: Lakshay Bansal (A00467478), Marko Ostrovitsa (A00448932)
+// Authors: Yousef Yousef, Muttyeb Tahir, Hemanth Harsha Rangaswamy Anitha, Hasan Alshanti, Asfand Khan
 // Purpose: To display the Contact section of the Woodland Conservation website
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -191,7 +191,8 @@ const Homepage = ({ dark }) => {
             Plan your visit with our interactive site map. Explore trails,
             picnic areas, and more.
           </p>
-        </div>        <button
+        </div>
+        <button
           className="bg-green-500 hover:bg-green-400 text-white px-8 py-4 rounded-full shadow-lg font-semibold transition mx-auto block"
           onClick={() => navigate("/sitemap")}
         >

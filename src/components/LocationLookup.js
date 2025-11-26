@@ -1,4 +1,4 @@
-// Author: Bhanu Prakash (A00468530)
+// Author: 
 // Purpose: To use the api, but not able to figure out the distance calaculations.
 
 import React, { useState } from 'react';

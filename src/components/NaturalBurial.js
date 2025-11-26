@@ -1,4 +1,4 @@
-// Authors: Codex assistant
+// Authors: Yousef Yousef
 // Purpose: Natural Burial informational page for Woodland Conservation
 import React, { useState } from "react";
 import BrineGravestone from "../assets/BrineGravestone.jpg";

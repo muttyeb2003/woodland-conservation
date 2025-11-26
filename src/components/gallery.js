@@ -1,4 +1,4 @@
-// Author: Kunal Singla(A00461346)
+// Author: Asfand Khan
 // Purpose: This file represents the gallery component. 
 
 import React, { useState } from 'react';

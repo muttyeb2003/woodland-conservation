@@ -1,4 +1,4 @@
-//Author: Marko Ostrovitsa(A00448932)
+//Author: Yousef Yousef
 //Purpose of the file is to diplay all the components together in the website
 
 import React, { useState } from "react";
