@@ -9,6 +9,19 @@ import { IoMoon, IoSunny } from "react-icons/io5"; // Importing icons for the da
 // Navigation component definition
 const Navigation = ({ toggleDarkMode, dark }) => {
   const [isOpen, setIsOpen] = useState(false); // State to manage the navigation menu
+  const navLinks = [
+    { to: "/", label: "Homepage" },
+    { to: "/about", label: "About" },
+    { to: "/sitemap", label: "Site Map" },
+    { to: "/gallery", label: "Gallery" },
+    { to: "/ecosystem", label: "Ecosystem Quiz" },
+    { to: "/flora", label: "Flora/Fauna/Fungi" },
+    { to: "#natural-burial", label: "Natural Burial" },
+    { to: "/ecommerce", label: "eCommerce" },
+    { to: "/contact", label: "Contact" },
+    { to: "/virtualtour", label: "Virtual Tour" },
+    { to: "/faq", label: "FAQ" },
+  ];
 
   // Function to toggle navigation menu
   const toggleNav = () => {
@@ -19,91 +32,31 @@ const Navigation = ({ toggleDarkMode, dark }) => {
     <div>
       {/* Main navigation bar */}
       <div
-        className={`flex items-center justify-between transition-colors duration-300 ${
-          dark ? "bg-darkerBlue" : "bg-darkBrown"
-        } text-white h-16 p-4`}
+        className={`flex items-center justify-between transition-colors duration-500 sticky top-0 z-30 shadow-lg ${
+          dark ? "bg-gradient-to-r from-[#0d1b2a] via-[#102542] to-[#0d1b2a]" : "bg-gradient-to-r from-[#4f2b18] via-[#704321] to-[#4f2b18]"
+        } text-white h-16 px-4 md:px-6`}
       >
         <div className="flex items-center">
           {/* Logo section */}
-          <img src={logo} alt="Logo" className="h-16 w-16 mr-2" />
+          <img src={logo} alt="Logo" className="h-14 w-14 mr-3 drop-shadow" />
         </div>
         {/* Navigation links for desktop view */}
-        <div className="hidden md:flex items-center justify-center flex-1 space-x-4 text-xl z-50 relative">
-          <Link
-            to="/"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Homepage
-          </Link>
-          <Link
-            to="/about"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            About
-          </Link>
-          <Link
-            to="/sitemap"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Site Map
-          </Link>
-          <Link
-            to="/gallery"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Gallery
-          </Link>
-          <Link
-            to="/ecosystem"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Ecosystem Quiz
-          </Link>
-          <Link
-            to="/flora"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Flora/Fauna/Fungi
-          </Link>
-          <Link
-            to="#natural-burial"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Natural Burial
-          </Link>
-
-          {/* eCommerce link */}
-          <Link
-            to="/ecommerce"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            eCommerce
-          </Link>
-
-          <Link
-            to="/contact"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Contact
-          </Link>
-          <Link
-            to="/virtualtour"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            Virtual Tour
-          </Link>
-          <Link
-            to="/faq"
-            className="py-2 px-4 transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg"
-          >
-            FAQ
-          </Link>
+        <div className="hidden md:flex items-center justify-center flex-1 space-x-2 text-lg z-50 relative">
+          {navLinks.map(({ to, label }) => (
+            <Link
+              key={label}
+              to={to}
+              className="py-2 px-4 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 hover:border-white/30 backdrop-blur transition-all duration-300 ease-out shadow-sm hover:shadow-md"
+            >
+              {label}
+            </Link>
+          ))}
         </div>
         {/* Dark mode toggle button for desktop view */}
         <div className="hidden md:flex items-center ml-4">
           <button
             onClick={toggleDarkMode}
-            className="flex items-center justify-center w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-full text-2xl focus:outline-none"
+            className="flex items-center justify-center w-12 h-12 bg-white/20 hover:bg-white/30 text-yellow-300 rounded-full text-2xl focus:outline-none transition-colors duration-300 border border-white/20 shadow-inner"
           >
             {dark ? (
               <IoSunny className="text-yellow-500" />
@@ -116,7 +69,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
         <div className="flex items-center md:hidden">
           <button
             onClick={toggleDarkMode}
-            className="flex items-center justify-center w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-full text-2xl focus:outline-none mr-4"
+            className="flex items-center justify-center w-12 h-12 bg-white/20 hover:bg-white/30 text-yellow-300 rounded-full text-2xl focus:outline-none mr-4 transition-colors duration-300 border border-white/20 shadow-inner"
           >
             {dark ? (
               <IoSunny className="text-yellow-500" />
@@ -145,84 +98,32 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           </button>
         </div>
       </div>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm md:hidden z-10"
+          onClick={toggleNav}
+        ></div>
+      )}
       {/* Mobile navigation menu */}
       <div
-        className={`md:hidden absolute top-0 right-0 transition-colors duration-300 ${
-          dark ? "bg-darkerBlue" : "bg-darkBrown"
-        } bg-opacity-50 backdrop-blur-md text-white w-64 h-screen p-4 z-10 transform transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed top-0 right-0 transition-colors duration-500 ${
+          dark ? "bg-gradient-to-b from-[#0d1b2a]/95 via-[#102542]/95 to-[#0d1b2a]/95" : "bg-gradient-to-b from-[#4f2b18]/95 via-[#704321]/95 to-[#4f2b18]/95"
+        } text-white w-72 h-screen p-6 z-20 transform transition-transform duration-300 ease-in-out shadow-2xl overflow-y-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <nav className="flex flex-col items-center mt-16 text-lg">
-          <Link
-            to="/"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Homepage
-          </Link>
-          <Link
-            to="/about"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            About
-          </Link>
-          <Link
-            to="/sitemap"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Site Map
-          </Link>
-          <Link
-            to="/gallery"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Gallery
-          </Link>
-          <Link
-            to="/ecosystem"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Ecosystem Quiz
-          </Link>
-          <Link
-            to="/flora"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Flora/Fauna/Fungi
-          </Link>
-          <Link
-            to="#natural-burial"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Natural Burial
-          </Link>
-
-          {/* eCommerce link in mobile menu */}
-          <Link
-            to="/ecommerce"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            eCommerce
-          </Link>
-
-          <Link
-            to="/contact"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Contact
-          </Link>
-          <Link
-            to="/virtualtour"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            Virtual Tour
-          </Link>
-          <Link
-            to="/faq"
-            className="py-2 transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl"
-          >
-            FAQ
-          </Link>
+        <nav className="flex flex-col items-start mt-16 text-lg space-y-2 pb-8">
+          {navLinks.map(({ to, label }) => (
+            <Link
+              key={label}
+              to={to}
+              onClick={() => setIsOpen(false)}
+              className="w-full py-2 px-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/30 transition-all duration-300 ease-out shadow-sm hover:shadow-md"
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
       </div>
     </div>
