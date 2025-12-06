@@ -4,7 +4,6 @@ import {
   InfoWindow,
   LoadScript,
   Marker,
-  Polygon,
   Polyline,
 } from "@react-google-maps/api";
 import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
@@ -26,24 +25,9 @@ const POIS = [
   { name: "Lake View", lat: 44.62028, lng: -63.91672, description: "Scenic overlook of the lake." },
 ];
 
-const SITE_BOUNDARY = [
-  { lat: 44.62664, lng: -63.92356 },
-  { lat: 44.62664, lng: -63.92336 },
-  { lat: 44.62639, lng: -63.92353 },
-  { lat: 44.62625, lng: -63.92347 },
-  { lat: 44.62611, lng: -63.923 },
-  { lat: 44.62589, lng: -63.92261 },
-  { lat: 44.62583, lng: -63.92266 },
-  { lat: 44.6255, lng: -63.92181 },
-  { lat: 44.62514, lng: -63.92122 },
-  { lat: 44.62503, lng: -63.92119 },
-  { lat: 44.62417, lng: -63.91958 },
-  { lat: 44.62392, lng: -63.91969 },
-  { lat: 44.62028, lng: -63.91672 },
-];
-
 const containerStyle = { width: "100%", height: "600px" };
 
+// Natural map look
 const mapOptions = {
   mapTypeId: "terrain",
   streetViewControl: false,
@@ -152,18 +136,18 @@ const SiteMap = () => {
             zoom={16}
             options={mapOptions}
           >
-            {/* Hiking Trail (dashed) */}
+            {/* Woodland Hiking Trail — Earth-Tone Dashed */}
             <Polyline
-              path={POIS}
+              path={POIS.map((poi) => ({ lat: poi.lat, lng: poi.lng }))}
               options={{
-                strokeOpacity: 0,
+                strokeOpacity: 0, // hide solid line
                 icons: [
                   {
                     icon: {
                       path: "M 0,-1 0,1",
                       scale: 4,
                       strokeOpacity: 1,
-                      strokeColor: "#8B5A2B",
+                      strokeColor: "#8B5A2B", // natural brown trail color
                     },
                     offset: "0",
                     repeat: "20px",
@@ -172,54 +156,36 @@ const SiteMap = () => {
               }}
             />
 
-            {/* Site Boundary */}
-            <Polygon
-              path={SITE_BOUNDARY}
-              options={{
-                strokeColor: "#008000",
-                strokeOpacity: 1,
-                strokeWeight: 4,
-                fillColor: "#00FF00",
-                fillOpacity: 0.25,
-              }}
-            />
-
             {/* POI Markers */}
             {POIS.map((poi) => (
               <Marker
                 key={poi.name}
-                position={poi}
+                position={{ lat: poi.lat, lng: poi.lng }}
                 onClick={() => handleMarkerClick(poi)}
               />
             ))}
 
-            {/* User Location */}
+            {/* User Location Marker */}
             {userLocation && (
               <Marker
                 position={userLocation}
-                icon={{ url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" }}
+                icon={{
+                  url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                }}
               />
             )}
 
-            {/* Custom Close Button InfoWindow */}
+            {/* Info Popup */}
             {selectedPoi && (
               <InfoWindow
-                position={selectedPoi}
+                position={{ lat: selectedPoi.lat, lng: selectedPoi.lng }}
                 onCloseClick={() => setSelectedPoi(null)}
               >
-                <div className="relative text-black p-2" style={{ minWidth: "230px" }}>
-                  {/* Custom Visible Close Button */}
-                  <button
-                    onClick={() => setSelectedPoi(null)}
-                    className="absolute top-1 right-1 w-6 h-6 flex items-center justify-center bg-white text-black rounded-full shadow border"
-                  >
-                    ✕
-                  </button>
-
+                <div className="text-black">
                   <div className="font-semibold mb-1">{selectedPoi.name}</div>
                   <p className="mb-2 text-sm max-w-xs">{selectedPoi.description}</p>
 
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-2">
                     <button
                       onClick={handlePlayAudio}
                       className="px-3 py-1 bg-green-700 text-white rounded"
@@ -243,8 +209,8 @@ const SiteMap = () => {
 
       <div className="mt-8 text-center text-white dark:text-gray-300">
         <h2 className="text-2xl font-bold mb-2">Instructions</h2>
-        <p>Click Start Talking Trees to enable narration.</p>
-        <p className="mt-2">Tap markers for descriptions or walking directions.</p>
+        <p>Click Start Talking Trees to enable speech narration.</p>
+        <p className="mt-2">Tap markers to hear descriptions or get walking directions.</p>
       </div>
     </div>
   );

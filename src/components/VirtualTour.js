@@ -111,8 +111,7 @@ const VirtualTour = () => {
       <div className="relative z-10 p-8 w-full flex flex-col items-center font-sans">
         {/* CLICK-TO-SPEAK TITLE (SHORT, does NOT mention uploads) */}
         <h1
-          className="text-5xl font-bold text-center mb-10 cursor-pointer text-[#FFF5E1]"
-          style={{ fontFamily: "'Playfair Display', serif" }}
+          className="text-5xl font-bold tracking-tight font-serif text-center mb-10 cursor-pointer text-[#FFF5E1]"
           onClick={() => speak("Virtual Tour of the Woodland")}
         >
           Virtual Tour of the Woodland
