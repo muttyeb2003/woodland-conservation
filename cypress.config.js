@@ -6,6 +6,7 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+<<<<<<< Updated upstream
 
   component: {
     devServer: {
@@ -13,4 +14,6 @@ module.exports = defineConfig({
       bundler: "webpack",
     },
   },
+=======
+>>>>>>> Stashed changes
 });

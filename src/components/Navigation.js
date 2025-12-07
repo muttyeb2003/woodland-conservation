@@ -67,7 +67,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           <Link to="/flora" className={desktopLinkClasses}>
             Flora/Fauna/Fungi
           </Link>
-          <Link to="#natural-burial" className={desktopLinkClasses}>
+          <Link to="/natural-burial" className={desktopLinkClasses}>
             Natural Burial
           </Link>
 
@@ -168,7 +168,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           <Link to="/flora" className={mobileLinkClasses}>
             Flora/Fauna/Fungi
           </Link>
-          <Link to="#natural-burial" className={mobileLinkClasses}>
+          <Link to="/natural-burial" className={mobileLinkClasses}>
             Natural Burial
           </Link>
 
