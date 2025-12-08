@@ -1,4 +1,4 @@
-//Author: Yousef Yousef
+//Author: Yousef Yousef, Muttyeb Tahir
 //Purpose of the file is to diplay all the components together in the website
 
 import React, { useState } from "react";

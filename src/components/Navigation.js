@@ -23,6 +23,11 @@ const Navigation = ({ toggleDarkMode, dark }) => {
     { to: "/faq", label: "FAQ" },
   ];
 
+  const desktopLinkClasses =
+    "py-2 px-4 text-white transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg";
+  const mobileLinkClasses =
+    "py-2 text-white transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl";
+
   // Function to toggle navigation menu
   const toggleNav = () => {
     setIsOpen(!isOpen);
@@ -33,7 +38,9 @@ const Navigation = ({ toggleDarkMode, dark }) => {
       {/* Main navigation bar */}
       <div
         className={`flex items-center justify-between transition-colors duration-500 sticky top-0 z-30 shadow-lg ${
-          dark ? "bg-gradient-to-r from-[#0d1b2a] via-[#102542] to-[#0d1b2a]" : "bg-gradient-to-r from-[#4f2b18] via-[#704321] to-[#4f2b18]"
+          dark
+            ? "bg-gradient-to-r from-[#0d1b2a] via-[#102542] to-[#0d1b2a]"
+            : "bg-gradient-to-r from-[#4f2b18] via-[#704321] to-[#4f2b18]"
         } text-white h-16 px-4 md:px-6`}
       >
         <div className="flex items-center">
@@ -41,16 +48,43 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           <img src={logo} alt="Logo" className="h-14 w-14 mr-3 drop-shadow" />
         </div>
         {/* Navigation links for desktop view */}
-        <div className="hidden md:flex items-center justify-center flex-1 space-x-2 text-lg z-50 relative">
-          {navLinks.map(({ to, label }) => (
-            <Link
-              key={label}
-              to={to}
-              className="py-2 px-4 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 hover:border-white/30 backdrop-blur transition-all duration-300 ease-out shadow-sm hover:shadow-md"
-            >
-              {label}
-            </Link>
-          ))}
+        <div className="hidden md:flex items-center justify-center flex-1 space-x-4 text-xl z-50 relative">
+          <Link to="/" className={desktopLinkClasses}>
+            Homepage
+          </Link>
+          <Link to="/about" className={desktopLinkClasses}>
+            About
+          </Link>
+          <Link to="/sitemap" className={desktopLinkClasses}>
+            Site Map
+          </Link>
+          <Link to="/gallery" className={desktopLinkClasses}>
+            Gallery
+          </Link>
+          <Link to="/ecosystem" className={desktopLinkClasses}>
+            Ecosystem Quiz
+          </Link>
+          <Link to="/flora" className={desktopLinkClasses}>
+            Flora/Fauna/Fungi
+          </Link>
+          <Link to="/natural-burial" className={desktopLinkClasses}>
+            Natural Burial
+          </Link>
+
+          {/* eCommerce link */}
+          <Link to="/ecommerce" className={desktopLinkClasses}>
+            eCommerce
+          </Link>
+
+          <Link to="/contact" className={desktopLinkClasses}>
+            Contact
+          </Link>
+          <Link to="/virtualtour" className={desktopLinkClasses}>
+            Virtual Tour
+          </Link>
+          <Link to="/faq" data-cy="nav-faq" className={desktopLinkClasses}>
+            FAQ
+          </Link>
         </div>
         {/* Dark mode toggle button for desktop view */}
         <div className="hidden md:flex items-center ml-4">
@@ -108,22 +142,50 @@ const Navigation = ({ toggleDarkMode, dark }) => {
       {/* Mobile navigation menu */}
       <div
         className={`md:hidden fixed top-0 right-0 transition-colors duration-500 ${
-          dark ? "bg-gradient-to-b from-[#0d1b2a]/95 via-[#102542]/95 to-[#0d1b2a]/95" : "bg-gradient-to-b from-[#4f2b18]/95 via-[#704321]/95 to-[#4f2b18]/95"
+          dark
+            ? "bg-gradient-to-b from-[#0d1b2a]/95 via-[#102542]/95 to-[#0d1b2a]/95"
+            : "bg-gradient-to-b from-[#4f2b18]/95 via-[#704321]/95 to-[#4f2b18]/95"
         } text-white w-72 h-screen p-6 z-20 transform transition-transform duration-300 ease-in-out shadow-2xl overflow-y-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <nav className="flex flex-col items-start mt-16 text-lg space-y-2 pb-8">
-          {navLinks.map(({ to, label }) => (
-            <Link
-              key={label}
-              to={to}
-              onClick={() => setIsOpen(false)}
-              className="w-full py-2 px-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/30 transition-all duration-300 ease-out shadow-sm hover:shadow-md"
-            >
-              {label}
-            </Link>
-          ))}
+        <nav className="flex flex-col items-center mt-16 text-lg">
+          <Link to="/" className={mobileLinkClasses}>
+            Homepage
+          </Link>
+          <Link to="/about" className={mobileLinkClasses}>
+            About
+          </Link>
+          <Link to="/sitemap" className={mobileLinkClasses}>
+            Site Map
+          </Link>
+          <Link to="/gallery" className={mobileLinkClasses}>
+            Gallery
+          </Link>
+          <Link to="/ecosystem" className={mobileLinkClasses}>
+            Ecosystem Quiz
+          </Link>
+          <Link to="/flora" className={mobileLinkClasses}>
+            Flora/Fauna/Fungi
+          </Link>
+          <Link to="/natural-burial" className={mobileLinkClasses}>
+            Natural Burial
+          </Link>
+
+          {/* eCommerce link in mobile menu */}
+          <Link to="/ecommerce" className={mobileLinkClasses}>
+            eCommerce
+          </Link>
+
+          <Link to="/contact" className={mobileLinkClasses}>
+            Contact
+          </Link>
+          <Link to="/virtualtour" className={mobileLinkClasses}>
+            Virtual Tour
+          </Link>
+          <Link to="/faq" className={mobileLinkClasses}>
+            FAQ
+          </Link>
         </nav>
       </div>
     </div>
@@ -131,5 +193,3 @@ const Navigation = ({ toggleDarkMode, dark }) => {
 };
 
 export default Navigation;
-
-

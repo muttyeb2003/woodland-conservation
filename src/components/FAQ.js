@@ -178,7 +178,7 @@ function FAQ() {
               </p>
 
               <textarea
-                className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-900 mb-2"
+                className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300 mb-2"
                 rows="3"
                 placeholder="Type an answer..."
                 value={faq.tempAnswer || ""}
@@ -208,7 +208,7 @@ function FAQ() {
           <button
             onClick={() => handleUpvote(faq.id)}
             onMouseEnter={() => speakOnHover("Upvote")}
-            className="px-3 py-1 rounded-md border border-gray-400 dark:border-gray-500 text-sm hover:bg-gray-100 dark:hover:bg-blue-800"
+            className="px-3 py-1 rounded-md border border-gray-400 dark:border-gray-500 text-sm hover:bg-gray-100 dark:hover:bg-blue-800 text-black dark:text-white"
             aria-label={`Upvote question: ${faq.question}`}
             title="Hover to hear Upvote"
           >
@@ -220,7 +220,7 @@ function FAQ() {
       {/* SUBMIT QUESTION FORM */}
       <div className="mt-10 p-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-blue-950">
         <h2
-          className="text-xl font-semibold mb-3 cursor-pointer select-none"
+          className="text-xl font-semibold mb-3 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
           onClick={() => speak("Ask a Question")}
           title="Click to hear heading"
         >
@@ -230,7 +230,7 @@ function FAQ() {
         <form onSubmit={handleSubmitQuestion}>
           <textarea
             placeholder="Type your question here..."
-            className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 mb-3 bg-white dark:bg-gray-900"
+            className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 mb-3 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300"
             value={newQuestion}
             onChange={(e) => setNewQuestion(e.target.value)}
             rows="3"
@@ -239,7 +239,7 @@ function FAQ() {
 
           <button
             type="submit"
-            className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded-md"
+            className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black dark:text-white rounded-md"
             onMouseEnter={() => speakOnHover("Submit question")}
             aria-label="Submit question"
             title="Hover to hear Submit question"
