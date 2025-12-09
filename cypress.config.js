@@ -2,18 +2,23 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
+    baseUrl: "http://localhost:3000",
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
   },
-<<<<<<< Updated upstream
 
   component: {
     devServer: {
-      framework: "react",
+      framework: "create-react-app",
       bundler: "webpack",
     },
   },
-=======
->>>>>>> Stashed changes
+
+  component: {
+    devServer: {
+      framework: "create-react-app",
+      bundler: "webpack",
+    },
+  },
 });
