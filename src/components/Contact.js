@@ -1,7 +1,7 @@
 // Author: Muhammad Asfand Yar Khan
 // Updated: Click-to-speech for all sections, hover-speech for Send Message
 
-import React from "react";
+import React, { useState } from "react";
 import {
   FaPhone,
   FaEnvelope,
@@ -14,7 +14,10 @@ import { IoVolumeHigh } from "react-icons/io5";
 import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
 const Contact = () => {
+  const [ttsEnabled, setTtsEnabled] = useState(true);
+
   const speakText = (text) => {
+    if (!ttsEnabled) return;
     const utterance = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
 
     window.speechSynthesis.cancel();
@@ -22,16 +25,26 @@ const Contact = () => {
   };
 
   const handleHoverSpeak = (text) => {
+    if (!ttsEnabled) return;
     const utterance = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
 
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   };
 
+  const stopSpeech = () => {
+    window.speechSynthesis.cancel();
+  };
+
+  const toggleVoiceEnabled = () => {
+    if (ttsEnabled) stopSpeech();
+    setTtsEnabled((prev) => !prev);
+  };
+
   return (
     <div
       id="contact"
-      className="p-8 bg-gradient-to-br from-green-300 to-green-500 dark:from-green-800 dark:to-green-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center"
+      className="p-8 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-amber-100 min-h-screen flex flex-col items-center font-[Calibri,ui-sans-serif]"
     >
       {/* TITLE WITH CLICK-TO-SPEAK */}
       <h1
@@ -55,7 +68,7 @@ const Contact = () => {
         channels.
       </p>
 
-      <div className="bg-white dark:bg-darkerBlue rounded-lg shadow-lg p-6 md:p-10 max-w-4xl w-full">
+      <div className="bg-white/95 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl p-6 md:p-10 max-w-4xl w-full">
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* NAME */}
@@ -73,7 +86,7 @@ const Contact = () => {
               <input
                 type="text"
                 placeholder="Your Name"
-                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 bg-gray-50 dark:bg-gray-900"
               />
             </div>
 
@@ -92,7 +105,7 @@ const Contact = () => {
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 bg-gray-50 dark:bg-gray-900"
               />
             </div>
           </div>
@@ -112,14 +125,14 @@ const Contact = () => {
             <textarea
               rows="5"
               placeholder="Your Message"
-              className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 bg-gray-50 dark:bg-gray-900"
             ></textarea>
           </div>
 
           {/* SEND MESSAGE – HOVER TO SPEAK */}
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white text-lg font-bold py-3 px-6 rounded-md transition-all duration-300"
+            className="w-full bg-sky-700 hover:bg-sky-800 text-white dark:text-amber-100 text-lg font-bold py-3 px-6 rounded-md transition-all duration-300 shadow-md"
             onMouseEnter={() => handleHoverSpeak("Send Message")}
           >
             Send Message
@@ -142,7 +155,7 @@ const Contact = () => {
             className="flex items-center gap-4 cursor-pointer"
             onClick={() => speakText("Phone number: +1 123 456 7890")}
           >
-            <FaPhone className="text-2xl text-green-800 dark:text-green-400" />
+            <FaPhone className="text-2xl text-sky-800 dark:text-sky-400" />
             <p className="text-lg">+1 (123) 456-7890</p>
           </div>
 
@@ -153,7 +166,7 @@ const Contact = () => {
               speakText("Email address: info at woodland conservation dot c a")
             }
           >
-            <FaEnvelope className="text-2xl text-green-800 dark:text-green-400" />
+            <FaEnvelope className="text-2xl text-sky-800 dark:text-sky-400" />
             <p className="text-lg">info@woodlandconservation.ca</p>
           </div>
 
@@ -162,7 +175,7 @@ const Contact = () => {
             className="flex items-center gap-4 cursor-pointer"
             onClick={() => speakText("Location: Halifax, Nova Scotia")}
           >
-            <FaMapMarkerAlt className="text-2xl text-green-800 dark:text-green-400" />
+            <FaMapMarkerAlt className="text-2xl text-sky-800 dark:text-sky-400" />
             <p className="text-lg">Halifax, Nova Scotia</p>
           </div>
         </div>
@@ -177,7 +190,7 @@ const Contact = () => {
           Follow Us
         </h3>
 
-        <div className="flex justify-center gap-6 text-3xl text-green-800 dark:text-green-400">
+        <div className="flex justify-center gap-6 text-3xl text-sky-800 dark:text-sky-400">
           <FaFacebook
             className="hover:scale-110 transition-transform cursor-pointer"
             onClick={() => speakText("Facebook")}

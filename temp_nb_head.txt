@@ -1,4 +1,4 @@
-// Authors: Yousef Yousef,Muttyeb Tahir
+// Authors: Yousef Yousef
 // Purpose: Natural Burial informational page for Woodland Conservation
 import React, { useRef, useState } from "react";
 import ShroudImage from "../assets/download-4.jpg";
@@ -121,13 +121,6 @@ const NaturalBurial = ({ dark }) => {
     setIsPaused(false);
   };
 
-  const handleSpeechStop = () => {
-    const synth = window.speechSynthesis;
-    if (!synth) return;
-    synth.cancel();
-    setIsPaused(false);
-  };
-
   const toggleAddon = (key) => {
     setAddons((prev) => ({ ...prev, [key]: !prev[key] }));
   };
@@ -189,14 +182,6 @@ const NaturalBurial = ({ dark }) => {
           >
             {isPaused ? "Resume speech" : "Play / Pause speech"}
           </button>
-          <button
-            onClick={handleSpeechStop}
-            className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
-            aria-label="Stop text to speech"
-            title="Stop text to speech"
-          >
-            Stop speech
-          </button>
         </div>
 
         <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
@@ -238,8 +223,8 @@ const NaturalBurial = ({ dark }) => {
           <h2 className="text-2xl font-semibold mb-3">What is natural burial?</h2>
           <p className="text-base md:text-lg leading-relaxed text-gray-800 dark:text-amber-100">
             A simple return to the woodland without embalming, vaults, polished stone, or plastics. Bodies rest in
-            biodegradable shrouds or caskets. Markers stay low and breathableâ€”living plants, wood slices, or digital
-            memory pebblesâ€”so the forest remains the focus.
+            biodegradable shrouds or caskets. Markers stay low and breathable—living plants, wood slices, or digital
+            memory pebbles—so the forest remains the focus.
           </p>
         </div>
 
@@ -251,17 +236,28 @@ const NaturalBurial = ({ dark }) => {
             </h2>
             <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 max-w-2xl">
               Choose the material and memorial approach that matches your values. Each option is
-              fully biodegradable and guided by our woodland caretakersâ€”no polished stone, no plastic,
+              fully biodegradable and guided by our woodland caretakers—no polished stone, no plastic,
               just natural fibers, living plants, and soil-safe fittings.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {burialOptions.map((option) => (
+            {burialOptions.map((option) => {
+              const isSelected = selectedBurialOption === option.title;
+              return (
               <div
                 key={option.title}
-                className={`group rounded-2xl overflow-hidden border bg-white/80 dark:bg-gray-800/70 shadow-md dark:shadow-xl dark:shadow-black/20 transition-transform duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl ${
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelectedBurialOption(option.title)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedBurialOption(option.title);
+                  }
+                }}
+                className={`group rounded-2xl overflow-hidden border bg-white/80 dark:bg-gray-800/70 shadow-md dark:shadow-xl dark:shadow-black/20 transition-transform duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl cursor-pointer ${
                   dark ? "border-gray-700 hover:border-sky-400/80" : "border-gray-200 hover:border-sky-500/70"
-                }`}
+                } ${isSelected ? "ring-2 ring-sky-500" : ""}`}
               >
                 <div className="h-48 overflow-hidden">
                   <img
@@ -362,253 +358,3 @@ const NaturalBurial = ({ dark }) => {
                     <input
                       type="checkbox"
                       checked={addons.qrMemories}
-                      onChange={() => toggleAddon("qrMemories")}
-                    />
-                    <span>QR memory link for family messages</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={addons.gpsTag}
-                      onChange={() => toggleAddon("gpsTag")}
-                    />
-                    <span>Discreet GPS marker for wayfinding</span>
-                  </label>
-                </div>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white/90 dark:bg-gray-800/80 border border-sky-200 dark:border-sky-800 shadow">
-                <h4 className="font-semibold mb-3">Your selections</h4>
-                <ul className="text-sm text-gray-800 dark:text-gray-200 space-y-1">
-                  <li>
-                    <span className="font-semibold">Burial option:</span> {selectedBurialOption}
-                  </li>
-                  <li>
-                    <span className="font-semibold">Casket:</span> {selectedCasket}
-                  </li>
-                  <li>
-                    <span className="font-semibold">Marker:</span> {markerChoice}
-                  </li>
-                  <li>
-                    <span className="font-semibold">Family plot:</span> {selectedFamilyPlot}
-                  </li>
-                  <li className="flex gap-2 flex-wrap">
-                    <span className="font-semibold">Add-ons:</span>
-                    <span>
-                      {Object.entries(addons)
-                        .filter(([, value]) => value)
-                        .map(([key]) => {
-                          if (key === "nativeFlowers") return "Native flowers";
-                          if (key === "qrMemories") return "QR memories";
-                          if (key === "gpsTag") return "GPS wayfinding";
-                          return key;
-                        })
-                        .join(", ") || "None"}
-                    </span>
-                  </li>
-                  <li>
-                    <span className="font-semibold">Plan:</span> {selectedPlan || "Choose a plan below"}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Family plots */}
-        <div className="mt-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-gray-800/80 shadow-lg p-6 md:p-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-            <h2 className="text-3xl font-semibold">Family plot options</h2>
-            <p className="text-sm md:text-base text-gray-700 dark:text-amber-100/80 max-w-2xl">
-              Choose how loved ones rest together: paired graves, small family clusters, or a memorial grove with shared
-              plantings and wayfinding.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Paired plots",
-                detail: "Side-by-side spaces with low markers and shared groundcover.",
-              },
-              {
-                title: "Family cluster",
-                detail: "Up to six rests within a mapped glade, with a single living marker.",
-              },
-              {
-                title: "Memorial grove",
-                detail: "Clustered around a native tree with discreet QR pebble for family messages.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-gray-900 shadow-sm"
-              >
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-800 dark:text-amber-100/90 leading-relaxed">{item.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Request info form */}
-        <div className="mt-12 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-gray-800/80 shadow-lg p-6 md:p-8">
-          <h2 className="text-3xl font-semibold mb-4">Request more information</h2>
-          <p className="text-sm md:text-base text-gray-700 dark:text-amber-100/80 mb-6">
-            Tell us what you needâ€”marker style, container preference, or family plot questions. We&apos;ll reply with
-            guidance and a gentle walkthrough.
-          </p>
-          <form className="grid md:grid-cols-2 gap-4">
-            <div className="flex flex-col">
-              <label className="text-sm mb-1">Name</label>
-              <input
-                type="text"
-                className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-sm mb-1">Email</label>
-              <input
-                type="email"
-                className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-sm mb-1">Container preference</label>
-              <select className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500">
-                <option>Shroud</option>
-                <option>Willow Casket</option>
-                <option>Undecided</option>
-              </select>
-            </div>
-            <div className="flex flex-col">
-              <label className="text-sm mb-1">Marker style</label>
-              <select className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500">
-                <option>Living groundcover</option>
-                <option>Memorial tree</option>
-                <option>Wood slice marker</option>
-                <option>QR memory pebble</option>
-                <option>Undecided</option>
-              </select>
-            </div>
-            <div className="flex flex-col md:col-span-2">
-              <label className="text-sm mb-1">Questions or family plot details</label>
-              <textarea
-                rows="3"
-                className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <button
-                type="button"
-                className="w-full md:w-auto px-5 py-3 rounded-lg bg-sky-700 hover:bg-sky-800 text-white dark:text-amber-100 font-semibold transition shadow"
-              >
-                Send request
-              </button>
-            </div>
-          </form>
-        </div>
-
-        {/* Meadow detail */}
-        <div
-          className={`mt-16 rounded-3xl overflow-hidden border ${
-            dark ? "border-gray-800 bg-gray-900/80" : "border-gray-100 bg-white"
-          } shadow-xl`}
-        >
-          <div className="grid md:grid-cols-2">
-            <div className="relative h-72 md:h-full">
-              <img
-                src={MeadowTrail}
-                alt="Meadow path within the woodland conservation area"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-black/20 to-transparent" />
-            </div>
-            <div className="p-8 md:p-10 space-y-4">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">
-                Gentle Groundcare
-              </p>
-              <h3 className="font-serif text-2xl md:text-3xl font-semibold">
-                Soft paths, quiet markers, and a forest-first approach
-              </h3>
-              <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
-                Trails are tended so every guest can move comfortably. Markers are kept low and
-                natural so the canopy remains the visual focus. Seasonal stewardship ensures the
-                forest floor stays breathable for roots, mushrooms, and the life they support.
-              </p>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <span className="px-3 py-1 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200">
-                  Accessible routes
-                </span>
-                <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
-                  Understated markers
-                </span>
-                <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200">
-                  Soil-safe materials
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Subscription plans */}
-        <div className="mt-16" ref={subscriptionRef}>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <h2 className="font-serif text-3xl font-semibold tracking-tight">
-              Stewardship Subscriptions
-            </h2>
-            <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 max-w-2xl">
-              Choose a plan to keep the woodland cared for year-round. Each tier funds trail access,
-              soil health, and guided support for families visiting a resting place.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {subscriptionPlans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`group relative overflow-hidden rounded-2xl border p-6 bg-white/90 dark:bg-gray-800/80 transition-transform duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl ${
-                  plan.accent
-                } ${plan.highlight ? "ring-2 ring-sky-500" : ""} ${
-                  selectedPlan === plan.name ? "outline outline-2 outline-sky-600" : ""
-                }`}
-              >
-                {selectedPlan === plan.name && (
-                  <span className="absolute right-3 top-3 text-xs font-semibold px-2 py-1 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-100">
-                    Selected
-                  </span>
-                )}
-                <div className="flex items-baseline gap-2 mb-2">
-                  <h3 className="font-semibold text-xl">{plan.name}</h3>
-                  <span className="text-sky-700 dark:text-sky-300 text-sm">monthly</span>
-                </div>
-                <p className="text-3xl font-bold mb-3">{plan.price}</p>
-                <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
-                  {plan.description}
-                </p>
-                <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300 mb-6">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-sky-600 dark:bg-sky-400" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => setSelectedPlan(plan.name)}
-                  className={`w-full py-3 rounded-lg font-semibold transition ${
-                    plan.highlight
-                      ? "bg-sky-600 text-white hover:bg-sky-700"
-                      : "bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
-                  }`}
-                >
-                  Choose {plan.name}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
-
-export default NaturalBurial;

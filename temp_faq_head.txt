@@ -52,6 +52,13 @@ function FAQ() {
     }
   };
 
+  const stopSpeech = () => {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    synth.cancel();
+    setIsPaused(false);
+  };
+
   const handleUpvote = (id) => {
     const hasVoted = votedIds.includes(id);
 
@@ -146,6 +153,14 @@ function FAQ() {
         >
           {isPaused ? "Resume speech" : "Pause speech"}
         </button>
+        <button
+          onClick={stopSpeech}
+          className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-[#5b3a1a] dark:text-white"
+          aria-label="Stop text to speech"
+          title="Stop text to speech"
+        >
+          Stop speech
+        </button>
       </div>
 
       {/* FAQ LIST */}
@@ -182,87 +197,4 @@ function FAQ() {
               >
                 This question is waiting for an answer:
               </p>
-
-              <textarea
-                className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300 mb-2"
-                rows="3"
-                placeholder="Type an answer..."
-                value={faq.tempAnswer || ""}
-                onChange={(e) => handleTempAnswerChange(faq.id, e.target.value)}
-              ></textarea>
-
-              <button
-            className="px-3 py-1 bg-sky-600 text-white dark:text-amber-100 rounded-md hover:bg-sky-700 text-sm"
-                onClick={() => handleSubmitAnswer(faq.id)}
-                onMouseEnter={() => speakOnHover("Submit answer")}
-                aria-label="Submit answer"
-                title="Hover to hear Submit answer"
-              >
-                Submit Answer
-              </button>
-            </div>
-          ) : (
-            <p
-              className="text-gray-800 dark:text-gray-100 mb-4 cursor-pointer select-none"
-              onClick={() => speak(`Answer: ${faq.answer}`)}
-              title="Click to hear answer"
-            >
-              {faq.answer}
-            </p>
-          )}
-
-            <button
-              data-cy="faq-upvote"
-              onClick={() => handleUpvote(faq.id)}
-              onMouseEnter={() => speakOnHover(hasVoted ? "Remove vote" : "Upvote")}
-              className={`px-3 py-2 rounded-md text-sm font-semibold transition ${
-                hasVoted
-                  ? "bg-sky-700 text-white dark:text-amber-100 hover:bg-sky-800"
-                  : "bg-sky-100 text-sky-900 dark:bg-sky-900 dark:text-amber-100 hover:bg-sky-200 dark:hover:bg-sky-800"
-              }`}
-              aria-label={`${hasVoted ? "Remove vote from" : "Upvote"} question: ${faq.question}`}
-              title="Hover to hear Upvote"
-            >
-              {hasVoted ? "Remove vote" : "Upvote"} ({faq.upvotes})
-            </button>
-          </div>
-        );
-      })}
-
-      {/* SUBMIT QUESTION FORM */}
-      <div className="mt-10 p-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-blue-950">
-        <h2
-          className="text-xl font-semibold mb-3 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
-          onClick={() => speak("Ask a Question")}
-          title="Click to hear heading"
-        >
-          Ask a Question
-        </h2>
-
-        <form onSubmit={handleSubmitQuestion}>
-          <textarea
-            placeholder="Type your question here..."
-            className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 mb-3 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300"
-            value={newQuestion}
-            onChange={(e) => setNewQuestion(e.target.value)}
-            rows="3"
-            aria-label="New question input"
-          ></textarea>
-
-          <button
-            type="submit"
-            className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black dark:text-white rounded-md"
-            onMouseEnter={() => speakOnHover("Submit question")}
-            aria-label="Submit question"
-            title="Hover to hear Submit question"
-          >
-            Submit Question
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-export default FAQ;
 
