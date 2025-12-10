@@ -206,6 +206,8 @@ function FAQ() {
           )}
 
           <button
+            data-cy="faq-upvote"
+
             onClick={() => handleUpvote(faq.id)}
             onMouseEnter={() => speakOnHover("Upvote")}
             className="px-3 py-1 rounded-md border border-gray-400 dark:border-gray-500 text-sm hover:bg-gray-100 dark:hover:bg-blue-800 text-black dark:text-white"
