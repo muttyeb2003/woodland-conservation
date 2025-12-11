@@ -1,4 +1,4 @@
-// Author: Muhammad Asfand Yar Khan
+// Author: Muhammad Asfand Yar Khan, Muttyeb Tahir
 // Updated: Click-to-speech for all sections, hover-speech for Send Message
 
 import React, { useState } from "react";

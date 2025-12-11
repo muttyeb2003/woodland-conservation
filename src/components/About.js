@@ -1,5 +1,4 @@
-// Author: Lakshay Bansal (A00467478), refreshed styling and content by Codex
-// Purpose: About page for St. Margaret's Bay Woodland Conservation
+// Author: Muttyeb Tahir
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import outlookImage from "../assets/outlook.jpg";
@@ -204,8 +203,7 @@ const About = () => {
             </div>
           ))}
         </div>
-      </div>
-
+      </div> 
       {/* Vision + Stewardship */}
       <div className="w-full max-w-6xl mt-12 grid lg:grid-cols-2 gap-8">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-slate-200 dark:border-gray-800 p-6">

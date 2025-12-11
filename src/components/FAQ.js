@@ -1,48 +1,84 @@
 // src/components/FAQ.js
-import React, { useState } from "react";
+// Author: Muttyeb Tahir
+// FAQ component provides searchable questions, upvotes, speech feedback,
+// user-submitted questions, and text-to-speech accessibility features.
+
+import React, { useEffect, useState } from "react";
 import { faqs as initialFaqs } from "../data/faqs";
 import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
 
+const STORAGE_KEYS = {
+  faqList: "faqList",
+  votes: "faqVotes",
+};
+
 function FAQ() {
-  const [faqList, setFaqList] = useState(initialFaqs);
+  // State: full FAQ list, restored from localStorage if available
+  const [faqList, setFaqList] = useState(() => {
+    if (typeof window === "undefined") return initialFaqs;
+    const storedFaqs = localStorage.getItem(STORAGE_KEYS.faqList);
+    if (storedFaqs) {
+      try {
+        return JSON.parse(storedFaqs);
+      } catch {
+        // Fallback to defaults if parsing fails
+        return initialFaqs;
+      }
+    }
+    return initialFaqs;
+  });
+
+  // Whether speech synthesis is paused or active
   const [isPaused, setIsPaused] = useState(false);
 
+  // Load previously voted question IDs from localStorage to prevent repeated voting
   const [votedIds, setVotedIds] = useState(() => {
-    const stored = localStorage.getItem("faqVotes");
+    if (typeof window === "undefined") return [];
+    const stored = localStorage.getItem(STORAGE_KEYS.votes);
     return stored ? JSON.parse(stored) : [];
   });
 
+  // Input state for submitting a new question
   const [newQuestion, setNewQuestion] = useState("");
 
+  // Sort FAQs so highest-upvoted appear first
   const sortedFaqs = [...faqList].sort((a, b) => b.upvotes - a.upvotes);
 
-  // Speech synthesis helper
+  // SPEECH SYNTHESIS: speak any given text using the Talking Trees voice filter
   const speak = (text) => {
     if (!text) return;
     const synth = window.speechSynthesis;
     if (!synth) return;
+
     if (synth.paused) synth.resume();
     synth.cancel();
+
     const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     synth.speak(utter);
+
     setIsPaused(false);
   };
 
-  // Hover speech for buttons
+  // SPEECH ON HOVER: used for buttons like Upvote, Submit Answer, etc.
   const speakOnHover = (text) => {
     if (!text) return;
     const synth = window.speechSynthesis;
     if (!synth) return;
+
     if (synth.paused) synth.resume();
     synth.cancel();
+
     const utter = applyTalkingTreesVoice(new SpeechSynthesisUtterance(text));
     synth.speak(utter);
+
     setIsPaused(false);
   };
 
+  // Pause / resume speech output
   const toggleSpeechPause = () => {
     const synth = window.speechSynthesis;
     if (!synth) return;
+
     if (synth.paused) {
       synth.resume();
       setIsPaused(false);
@@ -52,28 +88,36 @@ function FAQ() {
     }
   };
 
+  // Handle upvoting: one vote per question per device via localStorage
   const handleUpvote = (id) => {
     const hasVoted = votedIds.includes(id);
 
     const updatedFaqs = faqList.map((faq) => {
       if (faq.id !== id) return faq;
+
+      // Increment or decrement depending on vote state
       const nextVotes = hasVoted ? Math.max(0, faq.upvotes - 1) : faq.upvotes + 1;
       return { ...faq, upvotes: nextVotes };
     });
 
+    // Update voted question IDs
     const updatedVotedIds = hasVoted
       ? votedIds.filter((voteId) => voteId !== id)
       : [...votedIds, id];
 
     setFaqList(updatedFaqs);
     setVotedIds(updatedVotedIds);
-    localStorage.setItem("faqVotes", JSON.stringify(updatedVotedIds));
+
+    // Persist votes into localStorage
+    localStorage.setItem(STORAGE_KEYS.votes, JSON.stringify(updatedVotedIds));
   };
 
+  // Handle adding a NEW QUESTION to the list
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     if (!newQuestion.trim()) return;
 
+    // Temp placeholder answer until a team member responds
     const newFAQ = {
       id: Date.now(),
       question: newQuestion,
@@ -89,6 +133,7 @@ function FAQ() {
     speak("Question submitted.");
   };
 
+  // For admin replying to unanswered user-submitted questions
   const handleTempAnswerChange = (id, text) => {
     const updated = faqList.map((faq) =>
       faq.id === id ? { ...faq, tempAnswer: text } : faq
@@ -96,12 +141,12 @@ function FAQ() {
     setFaqList(updated);
   };
 
+  // Submit a written answer to a user question
   const handleSubmitAnswer = (id) => {
     const updated = faqList.map((faq) => {
       if (faq.id === id) {
-        if (!faq.tempAnswer || !faq.tempAnswer.trim()) {
-          return faq;
-        }
+        if (!faq.tempAnswer || !faq.tempAnswer.trim()) return faq;
+
         return {
           ...faq,
           answer: faq.tempAnswer,
@@ -115,8 +160,16 @@ function FAQ() {
     speak("Answer submitted.");
   };
 
+  // Persist FAQs (including upvote counts and user-submitted questions) locally
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(STORAGE_KEYS.faqList, JSON.stringify(faqList));
+  }, [faqList]);
+
   return (
     <div className="max-w-3xl mx-auto p-6 text-left font-[Calibri,ui-sans-serif] text-gray-900 dark:text-amber-100">
+
+      {/* Heading with text-to-speech on click */}
       <h1
         className="text-3xl font-bold mb-2 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
         onClick={() => speak("Woodland Conservation Frequently Asked Questions")}
@@ -124,6 +177,8 @@ function FAQ() {
       >
         Woodland Conservation FAQs
       </h1>
+
+      {/* Description paragraph with screen-reader speech */}
       <p
         className="text-gray-700 dark:text-gray-200 mb-6 cursor-pointer select-none"
         onClick={() =>
@@ -137,6 +192,8 @@ function FAQ() {
         Answers with more upvotes appear at the top. You can also submit a new
         question and reply to user-submitted questions.
       </p>
+
+      {/* Pause/resume speech */}
       <div className="mb-6 flex items-center gap-3">
         <button
           onClick={toggleSpeechPause}
@@ -148,79 +205,93 @@ function FAQ() {
         </button>
       </div>
 
-      {/* FAQ LIST */}
+      {/* === FAQ LIST SECTION === */}
       {sortedFaqs.map((faq) => {
         const hasVoted = votedIds.includes(faq.id);
+
         return (
           <div
             key={faq.id}
             className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 mb-4 bg-white dark:bg-blue-950"
           >
-          <div className="text-xs text-gray-500 dark:text-gray-300 mb-1 cursor-pointer select-none" 
-            onClick={() => speak(`Category: ${faq.category}`)}
-            title="Click to hear category"
-          >
-            Category: <span className="font-semibold">{faq.category}</span>
-          </div>
 
-          <h3
-            className="text-lg font-semibold mb-2 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
-            onClick={() => speak(`Question: ${faq.question}`)}
-            title="Click to hear question"
-          >
-            {faq.question}
-          </h3>
-
-          {faq.source === "user" &&
-          faq.answer ===
-            "This question has been submitted and will be answered soon." ? (
-            <div className="mb-4">
-              <p
-                className="text-[#5b3a1a] dark:!text-white mb-2 cursor-pointer select-none"
-                onClick={() => speak("This question is waiting for an answer")}
-                title="Click to hear waiting message"
-              >
-                This question is waiting for an answer:
-              </p>
-
-              <textarea
-                className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300 mb-2"
-                rows="3"
-                placeholder="Type an answer..."
-                value={faq.tempAnswer || ""}
-                onChange={(e) => handleTempAnswerChange(faq.id, e.target.value)}
-              ></textarea>
-
-              <button
-            className="px-3 py-1 bg-sky-600 text-white dark:text-amber-100 rounded-md hover:bg-sky-700 text-sm"
-                onClick={() => handleSubmitAnswer(faq.id)}
-                onMouseEnter={() => speakOnHover("Submit answer")}
-                aria-label="Submit answer"
-                title="Hover to hear Submit answer"
-              >
-                Submit Answer
-              </button>
-            </div>
-          ) : (
-            <p
-              className="text-gray-800 dark:text-gray-100 mb-4 cursor-pointer select-none"
-              onClick={() => speak(`Answer: ${faq.answer}`)}
-              title="Click to hear answer"
+            {/* Category line */}
+            <div
+              className="text-xs text-gray-500 dark:text-gray-300 mb-1 cursor-pointer select-none"
+              onClick={() => speak(`Category: ${faq.category}`)}
+              title="Click to hear category"
             >
-              {faq.answer}
-            </p>
-          )}
+              Category: <span className="font-semibold">{faq.category}</span>
+            </div>
 
+            {/* Question text */}
+            <h3
+              className="text-lg font-semibold mb-2 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
+              onClick={() => speak(`Question: ${faq.question}`)}
+              title="Click to hear question"
+            >
+              {faq.question}
+            </h3>
+
+            {/* If question is user-submitted AND still unanswered */}
+            {faq.source === "user" &&
+            faq.answer ===
+              "This question has been submitted and will be answered soon." ? (
+              <div className="mb-4">
+                <p
+                  className="text-[#5b3a1a] dark:!text-white mb-2 cursor-pointer select-none"
+                  onClick={() => speak("This question is waiting for an answer")}
+                  title="Click to hear waiting message"
+                >
+                  This question is waiting for an answer:
+                </p>
+
+                {/* Answer input box */}
+                <textarea
+                  className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300 mb-2"
+                  rows="3"
+                  placeholder="Type an answer..."
+                  value={faq.tempAnswer || ""}
+                  onChange={(e) => handleTempAnswerChange(faq.id, e.target.value)}
+                ></textarea>
+
+                {/* Submit answer button */}
+                <button
+                  className="px-3 py-1 bg-sky-600 text-white dark:text-amber-100 rounded-md hover:bg-sky-700 text-sm"
+                  onClick={() => handleSubmitAnswer(faq.id)}
+                  onMouseEnter={() => speakOnHover("Submit answer")}
+                  aria-label="Submit answer"
+                  title="Hover to hear Submit answer"
+                >
+                  Submit Answer
+                </button>
+              </div>
+            ) : (
+              // Otherwise show real answer
+              <p
+                className="text-gray-800 dark:text-gray-100 mb-4 cursor-pointer select-none"
+                onClick={() => speak(`Answer: ${faq.answer}`)}
+                title="Click to hear answer"
+              >
+                {faq.answer}
+              </p>
+            )}
+
+            {/* Upvote button with speech on hover */}
             <button
               data-cy="faq-upvote"
               onClick={() => handleUpvote(faq.id)}
-              onMouseEnter={() => speakOnHover(hasVoted ? "Remove vote" : "Upvote")}
+              onMouseEnter={() =>
+                speakOnHover(hasVoted ? "Remove vote" : "Upvote")
+              }
               className={`px-3 py-2 rounded-md text-sm font-semibold transition ${
                 hasVoted
                   ? "bg-sky-700 text-white dark:text-amber-100 hover:bg-sky-800"
                   : "bg-sky-100 text-sky-900 dark:bg-sky-900 dark:text-amber-100 hover:bg-sky-200 dark:hover:bg-sky-800"
               }`}
-              aria-label={`${hasVoted ? "Remove vote from" : "Upvote"} question: ${faq.question}`}
+              aria-label={`${hasVoted ? "Remove vote from" : "Upvote"} question: ${
+                faq.question
+              }`}
               title="Hover to hear Upvote"
             >
               {hasVoted ? "Remove vote" : "Upvote"} ({faq.upvotes})
@@ -229,7 +300,7 @@ function FAQ() {
         );
       })}
 
-      {/* SUBMIT QUESTION FORM */}
+      {/* === SUBMIT QUESTION FORM === */}
       <div className="mt-10 p-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-blue-950">
         <h2
           className="text-xl font-semibold mb-3 cursor-pointer select-none text-[#5b3a1a] dark:text-white"
@@ -240,6 +311,7 @@ function FAQ() {
         </h2>
 
         <form onSubmit={handleSubmitQuestion}>
+          {/* New question input */}
           <textarea
             placeholder="Type your question here..."
             className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 mb-3 bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300"
@@ -249,6 +321,7 @@ function FAQ() {
             aria-label="New question input"
           ></textarea>
 
+          {/* Submit question button */}
           <button
             type="submit"
             className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black dark:text-white rounded-md"
@@ -265,4 +338,3 @@ function FAQ() {
 }
 
 export default FAQ;
-
