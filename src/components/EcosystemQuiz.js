@@ -1,10 +1,8 @@
-
 // Author: Hemanth Harsha Rangaswamy Anitha
 // Update: Added progress bar , background image and easier questions.
 // Background image: “The Oak Woodland in South End Halifax” by NS Wild Flora  
 // URL: https://nswildflora.ca/2020/05/07/the-oak-woodland-in-south-end-halifax/  
 // Used as background for Halifax Woodlands Quiz (© NS Wild Flora, 2020)
-
 
 import React, { useState, useCallback } from "react";
 import { applyTalkingTreesVoice } from "../utils/talkingTreesVoice";
@@ -127,8 +125,10 @@ const EcosystemQuiz = () => {
 
         {!finished ? (
           <div className="bg-green-900/80 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-green-700">
+
             {/* Question */}
             <h2
+              data-cy="question-text"
               className="text-3xl font-bold text-green-50 mb-6 text-center cursor-pointer"
               onClick={() => speakText(questions[current].question)}
             >
@@ -161,6 +161,7 @@ const EcosystemQuiz = () => {
 
                 return (
                   <button
+                    data-cy="option"
                     key={idx}
                     className={style}
                     onClick={() => !showFeedback && setSelected(option)}
@@ -176,6 +177,7 @@ const EcosystemQuiz = () => {
 
             {/* Submit button */}
             <button
+              data-cy="submit-button"
               className="mt-6 w-full bg-green-500 hover:bg-green-400 text-green-900 font-semibold text-lg py-3 rounded-xl shadow-md"
               onClick={handleSubmit}
               onMouseEnter={() =>
@@ -186,6 +188,7 @@ const EcosystemQuiz = () => {
             </button>
 
             <p
+              data-cy="progress-text"
               className="mt-4 text-green-200/80 text-center cursor-pointer"
               onClick={() =>
                 speakText(`Question ${current + 1} of ${totalQuestions}`)
@@ -195,7 +198,10 @@ const EcosystemQuiz = () => {
             </p>
           </div>
         ) : (
-          <div className="bg-green-900/80 backdrop-blur-md p-8 rounded-3xl shadow-xl text-center border border-green-700">
+          <div
+            data-cy="results-screen"
+            className="bg-green-900/80 backdrop-blur-md p-8 rounded-3xl shadow-xl text-center border border-green-700"
+          >
             <h2
               className="text-3xl font-extrabold text-green-100 mb-4 cursor-pointer"
               onClick={() => speakText("Quiz Complete")}
@@ -213,6 +219,7 @@ const EcosystemQuiz = () => {
             </p>
 
             <button
+              data-cy="retry-button"
               className="bg-green-500 hover:bg-green-400 text-green-900 font-semibold text-lg py-3 px-5 rounded-xl shadow-md"
               onClick={() => {
                 setCurrent(0);
