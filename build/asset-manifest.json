@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/woodland-conservation/static/css/main.0018362f.css",
+    "main.js": "/woodland-conservation/static/js/main.80d8a7d9.js",
+    "static/js/453.6b189a39.chunk.js": "/woodland-conservation/static/js/453.6b189a39.chunk.js",
+    "static/media/outlook.jpg": "/woodland-conservation/static/media/outlook.960e943b1ef28eb3fd96.jpg",
+    "static/media/seedpack.png": "/woodland-conservation/static/media/seedpack.2926ba9ba1012f7a5937.png",
+    "static/media/woodlandguidebook.png": "/woodland-conservation/static/media/woodlandguidebook.cb48a4fcd7535d242f5a.png",
+    "static/media/waterbottle.png": "/woodland-conservation/static/media/waterbottle.f35bb4c8e9fb368d653c.png",
+    "static/media/trailmap.png": "/woodland-conservation/static/media/trailmap.aa2b00fcf7285cd79861.png",
+    "static/media/image6.jpg": "/woodland-conservation/static/media/image6.85800f4e4ad8c2bff53f.jpg",
+    "static/media/image5.jpg": "/woodland-conservation/static/media/image5.ed48890d36bd4ff1e3c6.jpg",
+    "static/media/image3.jpg": "/woodland-conservation/static/media/image3.9ecf2f8ed52012a8dc76.jpg",
+    "static/media/image1.jpg": "/woodland-conservation/static/media/image1.a0f0a12e117e0df72dcc.jpg",
+    "static/media/image2.jpg": "/woodland-conservation/static/media/image2.8b844e595f05f925d5ad.jpg",
+    "static/media/image4.jpg": "/woodland-conservation/static/media/image4.305e905683f812fe380b.jpg",
+    "static/media/forest1.png": "/woodland-conservation/static/media/forest1.90e48ddb2eb2e9121218.png",
+    "static/media/woodlands-bg.jpg": "/woodland-conservation/static/media/woodlands-bg.96fd184f90ee1abeece5.jpg",
+    "static/media/nightforest.png": "/woodland-conservation/static/media/nightforest.3b17293a6ccc5683d6ca.png",
+    "static/media/forest.jpg": "/woodland-conservation/static/media/forest.31cfe43da5c74e0164ed.jpg",
+    "static/media/logo.png": "/woodland-conservation/static/media/logo.97e32fe9a07d02bc5b08.png",
+    "static/media/download-8.jpg": "/woodland-conservation/static/media/download-8.95b547b568bc93421c7b.jpg",
+    "static/media/download-7.jpg": "/woodland-conservation/static/media/download-7.3b10bf9d1872465f66a3.jpg",
+    "static/media/download-2.jpg": "/woodland-conservation/static/media/download-2.caee94907c7e2f7fcfc4.jpg",
+    "static/media/download-3.jpg": "/woodland-conservation/static/media/download-3.eaf97260710614d5d83c.jpg",
+    "static/media/download-5.jpg": "/woodland-conservation/static/media/download-5.cc2522da64bab3eb83a5.jpg",
+    "static/media/download-4.jpg": "/woodland-conservation/static/media/download-4.bcbed735599659708789.jpg",
+    "static/media/download-11.jpg": "/woodland-conservation/static/media/download-11.973d9f5aa2acbed9cc21.jpg",
+    "static/media/images-1.jpg": "/woodland-conservation/static/media/images-1.6db6f2d442f978ee51a8.jpg",
+    "index.html": "/woodland-conservation/index.html",
+    "main.0018362f.css.map": "/woodland-conservation/static/css/main.0018362f.css.map",
+    "main.80d8a7d9.js.map": "/woodland-conservation/static/js/main.80d8a7d9.js.map",
+    "453.6b189a39.chunk.js.map": "/woodland-conservation/static/js/453.6b189a39.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0018362f.css",
+    "static/js/main.80d8a7d9.js"
+  ]
+}
