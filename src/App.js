@@ -2,7 +2,7 @@
 //Purpose of the file is to diplay all the components together in the website
 
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import FAQ from "./components/FAQ";
 import Homepage from "./components/Homepage";
