@@ -24,7 +24,7 @@ const Navigation = ({ toggleDarkMode, dark }) => {
   ];
 
   const desktopLinkClasses =
-    "py-2 px-4 text-white transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg";
+    "py-1.5 px-2.5 lg:py-2 lg:px-3 text-white transition-colors duration-500 ease-in-out hover:bg-yellow-400 rounded-lg whitespace-nowrap";
   const mobileLinkClasses =
     "py-2 text-white transition-colors duration-500 ease-in-out hover:bg-yellow-400 w-full text-center rounded-lg hover:rounded-xl";
 
@@ -41,14 +41,14 @@ const Navigation = ({ toggleDarkMode, dark }) => {
           dark
             ? "bg-gradient-to-r from-[#0d1b2a] via-[#102542] to-[#0d1b2a]"
             : "bg-gradient-to-r from-[#4f2b18] via-[#704321] to-[#4f2b18]"
-        } text-white h-16 px-4 md:px-6`}
+        } text-white min-h-16 py-2 px-4 md:px-6`}
       >
         <div className="flex items-center">
           {/* Logo section */}
           <img src={logo} alt="Logo" className="h-14 w-14 mr-3 drop-shadow" />
         </div>
         {/* Navigation links for desktop view */}
-        <div className="hidden md:flex items-center justify-center flex-1 space-x-4 text-xl z-50 relative">
+        <div className="hidden md:flex items-center justify-center flex-1 flex-wrap gap-2 lg:gap-3 text-sm lg:text-base xl:text-lg z-50 relative">
           <Link to="/" className={desktopLinkClasses}>
             Homepage
           </Link>
